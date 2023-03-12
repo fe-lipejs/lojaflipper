@@ -1,7 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 import Home from "@/components/Views/Home.vue";
 import Login from "@/components/Views/Login";
-import Categoria from "@/components/Views/Categoria/Categoria.vue"
+import Categoria from "@/components/Categoria.vue"
 import Carrinho from "@/components/Views/Carrinho/Carrinho.vue"
 import Produto from "@/components/Views/Produto/Produto.vue"
 import Informacoes from "@/components/Views/Informacoes/Informacoes.vue"

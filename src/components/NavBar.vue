@@ -85,10 +85,10 @@
         </svg>
       </div>
 
-      <a href="/"> <div class="mobile-menu-item">INÍCIO</div></a>
-      <a href="/categoria"><div class="mobile-menu-item">MASCULINO</div></a>
-      <a href="/categoria"> <div class="mobile-menu-item">FEMININO</div></a>
-      <a href="/login"> <div class="mobile-menu-item">LOGIN</div></a>
+      <router-link v-on:click="fecharMenuMobile" to="/"> <div class="mobile-menu-item">INÍCIO</div></router-link>
+      <router-link v-on:click="fecharMenuMobile" to="/categoria"><div class="mobile-menu-item">MASCULINO</div></router-link>
+      <router-link v-on:click="fecharMenuMobile" to="/categoria"> <div class="mobile-menu-item">FEMININO</div></router-link>
+      <router-link v-on:click="fecharMenuMobile" to="/login"><div class="mobile-menu-item">LOGIN</div></router-link>
     </div>
   </div>
 </template>
@@ -150,6 +150,9 @@ export default {
       menuMobileLigado: false,
     };
   },
+  mounted(){
+    Location.reload()
+  },
   methods: {
     abrirMenuMobile(e) {
       if (this.menuMobileLigado == false) {
@@ -163,6 +166,10 @@ export default {
         this.$refs.menuMobile.style.transform = "translateX(-100%)";
       }
     },
+    fecharMenuMobile(){
+       this.menuMobileLigado = false;
+       this.$refs.menuMobile.style.transform = "translateX(-100%)";
+    }
   },
 };
 </script>

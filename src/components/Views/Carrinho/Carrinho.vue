@@ -1,7 +1,8 @@
 <template>
-<br>
-<br><br><br><br>
-  <h3>Carrinho</h3>
+  <div>
+    <br /><br /><br /><br />
+    <h3>Carrinho</h3>
+  </div>
 </template>
 
 <script>
