@@ -90,6 +90,7 @@
       <router-link v-on:click="fecharMenuMobile" to="/categoria"> <div class="mobile-menu-item">FEMININO</div></router-link>
       <router-link v-on:click="fecharMenuMobile" to="/login"><div class="mobile-menu-item">LOGIN</div></router-link>
     </div>
+    {{}}
   </div>
 </template>
 <style scoped>
@@ -151,7 +152,7 @@ export default {
     };
   },
   mounted(){
-    Location.reload()
+    
   },
   methods: {
     abrirMenuMobile(e) {

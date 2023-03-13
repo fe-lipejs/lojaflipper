@@ -45,8 +45,8 @@ const routes = [
     component: Pagamento
   },
   {
-    path: "/Frete",
-    name: "Frete",
+    path: "/frete",
+    name: "frete",
     component: Frete
   }
 ];

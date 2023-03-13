@@ -25,20 +25,6 @@
         <div style="text-decoration: underline; font-weight: 900">alterar</div>
       </div>
     </div>
-    <!-- PARTE DE ESCOLHA DO FRETE -->
-    <!-- <label>
-      <input type="radio" name="opcoes" value="opcao1" />
-      Opção 1
-    </label>
-    <label>
-      <input type="radio" name="opcoes" value="opcao2" />
-      Opção 2
-    </label>
-    <label>
-      <input type="radio" name="opcoes" value="opcao3" />
-      Opção 3
-    </label> -->
-    <!-- INFORMACÕES DE FRETE -->
     <div style="margin-top: 50px" class="frete-container">
       <div class="frete-cont">
         <div style="display: flex">
@@ -89,7 +75,8 @@
       </div>
       <br />
     </div>
-    <ButtonPadrao texto="Confirmar Pagamento"/>
+    <ButtonPadrao href="/" texto="Confirmar Pagamento"/>
+  
   </div>
 </template>
 
@@ -97,7 +84,6 @@
 import ButtonPadrao from "@/components/ButtonPadrao.vue";
 
 export default {
-  name: "Frete",
   components: {
     ButtonPadrao,
   },

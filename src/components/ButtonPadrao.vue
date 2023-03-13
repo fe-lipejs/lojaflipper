@@ -1,10 +1,10 @@
 <template>
   <div>
-    <a :href="href">
+    <router-link :to="href">
       <div class="buttonPadrao">
         <div>{{ texto }}</div>
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 

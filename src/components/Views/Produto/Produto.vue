@@ -1,5 +1,6 @@
 <template>
-  <!-- PRODUTO ESPECIFICAÇÕES-->
+<div>
+    <!-- PRODUTO ESPECIFICAÇÕES-->
   <div id="prod-espe">
     <div id="prod-name">
       Camisa Slim Em Algodão Com Manga Curta E Bolso Azul Escuro
@@ -130,16 +131,16 @@
     </div>
   </div>
   <!-- BOTÃO COMPRAR -->
-  <a href="/informacoes"
+  <router-link to="/informacoes"
     ><div
       id="button-comprar"
       class="buttonMovendo"
       :class="{ buttonParado: buttonParado }"
     >
       <div>COMPRAR</div>
-    </div></a
-  >
-  <VejaTambem />
+    </div></router-link>
+  <VejaTambem/>
+</div>
 </template>
 <script>
 import VejaTambem from "@/components/VejaTambem.vue";

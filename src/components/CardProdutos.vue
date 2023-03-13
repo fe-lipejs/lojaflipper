@@ -1,5 +1,5 @@
 <template>
-  <a href="/produto">
+  <router-link to="/produto"> 
     <div id="produto-container">
       <div id="produto-img"></div>
       <div id="produto-nome">Moto G52</div>
@@ -9,7 +9,7 @@
       </div>
       <div id="preco-parcelas">6X de R$23,32*</div>
     </div>
-  </a>
+  </router-link>
   <!-- <div id="produtos-divisao"></div> -->
 </template>
 <script>
