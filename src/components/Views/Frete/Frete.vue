@@ -4,7 +4,9 @@
     <br />
     <br />
     <br />
+    <!-- Preciso colocar uma imagem do produto e seu preço aqui, para o cliente saiba o que está comprando -->
     <!-- RESUMO DO FRETE -->
+    <h4 style="text-align: center; margin:10px">Resumo</h4>
     <div class="dds-cont">
       <div class="dds-cont-sub">
         <div>
@@ -25,7 +27,9 @@
         <div style="text-decoration: underline; font-weight: 900">alterar</div>
       </div>
     </div>
-    <div style="margin-top: 50px" class="frete-container">
+    <!-- Escola o frete, futuramente vou criar um component só disso, como lá encima tbm -->
+    <h4 style="text-align: center; margin:20px">Escolha o Frete</h4>
+    <div  class="frete-container">
       <div class="frete-cont">
         <div style="display: flex">
           <input
@@ -75,7 +79,7 @@
       </div>
       <br />
     </div>
-    <ButtonPadrao href="/" texto="Confirmar Pagamento"/>
+    <ButtonPadrao href="/carrinho" texto="Confirmar Pagamento"/>
   
   </div>
 </template>
