@@ -1,18 +1,21 @@
 <template>
-  <div id="rodape-container">
-    <div>Início</div>
-    <div>Produtos</div>
-    <div>Contato</div>
+  <div>
+    <div id="rodape-container">
+      <div>Início</div>
+      <div>Produtos</div>
+      <div>Contato</div>
+    </div>
+    <div id="rodape-container2">
+      <div>Copyright Felipe Produções - 2023</div>
+      <div>Todos os Direitos Reservados</div>
+    </div>
   </div>
-  <div id="rodape-container2">
-    <div>Copyright Felipe Produções - 2023</div>
-    <div>Todos os Direitos Reservados</div>
-  </div>
+
+  
 </template>
 
 <style scoped>
 #rodape-container {
-
   margin-top: 80px;
   display: flex;
   flex-direction: column;

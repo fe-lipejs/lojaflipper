@@ -6,7 +6,7 @@
     <br />
     <!-- Preciso colocar uma imagem do produto e seu preço aqui, para o cliente saiba o que está comprando -->
     <!-- RESUMO DO FRETE -->
-    <h4 style="text-align: center; margin:10px">Resumo</h4>
+    <h4 style="text-align: center; margin: 10px">Resumo</h4>
     <div class="dds-cont">
       <div class="dds-cont-sub">
         <div>
@@ -28,8 +28,8 @@
       </div>
     </div>
     <!-- Escola o frete, futuramente vou criar um component só disso, como lá encima tbm -->
-    <h4 style="text-align: center; margin:20px">Escolha o Frete</h4>
-    <div  class="frete-container">
+    <h4 style="text-align: center; margin: 20px">Escolha o Frete</h4>
+    <div class="frete-container">
       <div class="frete-cont">
         <div style="display: flex">
           <input
@@ -79,9 +79,8 @@
       </div>
       <br />
     </div>
-    <ButtonPadrao href="/carrinho" texto="Confirmar Pagamento"/>
-  
-  </div>
+    <ButtonPadrao href="/carrinho" texto="Confirmar Pagamento" />
+   </div>
 </template>
 
 <script>
@@ -176,7 +175,13 @@ export default {
   margin-top: -14px;
   margin-right: 15px;
 }
-input[type="radio"]:checked {
-  background-color: #000;
+input[type="checkbox"],input[type="radio"]{
+   
+    background-color: black;
+  }
+input[type='radio'] {
+    accent-color: #000;
 }
+
+
 </style>

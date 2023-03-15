@@ -1,17 +1,18 @@
 <template>
-  <head>
-    
-    <link
-      href="http://fonts.googleapis.com/css?family=Roboto"
-      rel="stylesheet"
-      type="text/css"
-    />
-  </head>
-  <NavBar />
-  <body>
-    <router-view />
-  </body>
-  <Rodape/>
+  <div>
+    <head>
+      <link
+        href="http://fonts.googleapis.com/css?family=Roboto"
+        rel="stylesheet"
+        type="text/css"
+      />
+    </head>
+    <NavBar />
+    <body>
+      <router-view />
+    </body>
+    <Rodape />
+  </div>
 </template>
 <style>
 * {
@@ -24,12 +25,13 @@ body {
 </style>
 <script>
 import NavBar from "./components/NavBar.vue";
-import Rodape from "./components/Rodape.vue"
+import Rodape from "./components/Rodape.vue";
 export default {
   name: "App",
   components: {
     NavBar,
     Rodape,
   },
+  
 };
 </script>

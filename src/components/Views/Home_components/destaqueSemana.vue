@@ -99,6 +99,7 @@ export default {
   name: "DestaqueSemana",
   data() {
     return {
+      showComponentRodape: true,
       nome: "Página Inicial",
       toqueInicial: null,
       toqueIntensidade: 0,
