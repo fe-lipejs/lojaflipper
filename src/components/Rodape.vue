@@ -14,7 +14,7 @@
   
 </template>
 
-<style scoped>
+<style>
 #rodape-container {
   margin-top: 80px;
   display: flex;
@@ -44,3 +44,13 @@
   padding: 7px;
 }
 </style>
+
+<script>
+export default {
+  data(){
+    return{
+      
+    }
+  }
+}
+</script>

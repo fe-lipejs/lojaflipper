@@ -11,7 +11,7 @@
     <body>
       <router-view />
     </body>
-    <Rodape />
+       <Rodape v-if="showComponentRodape" />
   </div>
 </template>
 <style>
@@ -31,6 +31,20 @@ export default {
   components: {
     NavBar,
     Rodape,
+  },
+  data() {
+    return {
+      showComponentRodape: true,
+    };
+  },
+  
+  mounted() {
+    console.log("estamos?: " + this.$route.path);
+    if (this.$route.name === "Carrinho") {
+      this.showComponentRodape = false;
+    }else{
+        this.showComponentRodape = true
+    }
   },
   
 };

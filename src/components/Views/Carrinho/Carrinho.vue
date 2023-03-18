@@ -3,10 +3,13 @@
     <br /><br /><br />
     <h3>Carrinho</h3>
     <div class="endereco-entrega">
-      <div>ENTREGAR PARA: </div>
+      <div>ENTREGAR PARA:</div>
       <div>JOÃO GOULART</div>
     </div>
-    <br>
+    <br />
+    <ProdutoCarrinho />
+    <ProdutoCarrinho />
+    <ProdutoCarrinho />
     <ProdutoCarrinho />
     <ProdutoCarrinho />
     <!-- INSERIR CUPOM -->
@@ -52,24 +55,26 @@
       </div>
       <div class="btn-container">
         <div>CONTINUAR COMPRANDO</div>
-        <div>FINALIZAR COMPRA</div>
+        <div>
+          <router-link to="/informacoes">
+            <div style="text-decoration: none; color: #fff">FINALIZAR COMPRA</div>
+          </router-link>
+        </div>
       </div>
     </div>
-     <!-- NÃO EXIBIR O CARRINHO NESSA PÁGINA: -->
-     <Rodape v-if="showComponentRodape" />
-   
-
+    <!-- NÃO EXIBIR O CARRINHO NESSA PÁGINA: -->
   </div>
 </template>
 
 <script>
 import ProdutoCarrinho from "@/components/Views/Carrinho/ProdutoCarrinho.vue";
-import Rodape from '../../Rodape.vue'
+import Rodape from "../../Rodape.vue";
+import $ from "jquery";
 export default {
   name: "Carrinho",
   components: {
     ProdutoCarrinho,
-    Rodape
+    Rodape,
   },
 
   data() {
@@ -77,37 +82,44 @@ export default {
       showComponentRodape: true,
     };
   },
-  created() {
-    console.log("estamos?: " + this.$route.name);
-    if (this.$route.name === "Carrinho") {
-      this.showComponentRodape = false;
-    }else{
-        this.showComponentRodape = true
+  mounted() {
+    // console.log("estamos?: " + this.$route.path);
+
+    if (this.$route.path === "/carrinho") {
+      // this.$refs.rodape.style.display = "none"
+      console.log("Rodapé desaparece");
+      $("#rodape-container").css("display", "none");
+      $("#rodape-container2").css("display", "none");
+      // this.$refs.rodape.style.display = "none"
+    } else {
+      $("#rodape-container").css("display", "block");
+      $("#rodape-container2").css("display", "block");
     }
   },
 };
 </script>
 
 <style scoped>
-#rodape-container{
+#rodape-container {
   display: none;
 }
-.endereco-entrega{
+.endereco-entrega {
   display: flex;
   padding: 7px;
   color: #fff;
   background-color: #000;
   font-size: 14px;
 }
-.endereco-entrega div:nth-child(1){
+.endereco-entrega div:nth-child(1) {
   margin-left: 15px;
 }
-.endereco-entrega div:nth-child(2){
+.endereco-entrega div:nth-child(2) {
   font-weight: 600;
   margin-left: 10px;
 }
 #cupom-container {
   margin-top: 30px;
+
   display: flex;
   height: 73px;
   border-top: 1px solid #e3e3e3;
@@ -144,7 +156,9 @@ export default {
 }
 
 /* RESUMO DA COMPRA */
-
+.resumo-container {
+  margin-bottom: 150px;
+}
 .nome-preco {
   display: flex;
   justify-content: space-between;
@@ -159,9 +173,11 @@ export default {
 
 /* TOTAL CONTAINER */
 .total-container {
-  position:fixed;
-  padding-top:10px;
-  padding-bottom:05px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 05px;
   box-shadow: 0px -10px 10px -1px rgba(0, 0, 0, 0.15);
   margin-top: 30px;
   background-color: #fff;
@@ -171,7 +187,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin: 7px;
-  padding-bottom:5px;
+  padding-bottom: 5px;
 }
 .total-cartao div {
   color: #484848;
