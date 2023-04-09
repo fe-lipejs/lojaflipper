@@ -191,132 +191,226 @@
             />
           </div>
           <br />
-          <div id="imagensContainer">
-          <span>Imagem Capa</span>
-          <!-- ------------IMAGEM CAPA--------------------- -->
-          <div class="container">
-            <div class="wrapper">
-              <div class="image">
-                <img :src="formEstoque.imgCapa" alt="" @click="funcaoAtivarInputFileImageCorrespondente(index)" /><!-- @click="openFileDialog"  -->
-              </div>
-              <div class="content">
-                <div class="icon">
+          <div id="imagensContainer" style="display: flex">
+            
+            <!-- ------------IMAGEM CAPA--------------------- -->
+            <div class="container">
+              <div class="wrapper">
+                <div class="image">
                   <img
-                    src="../../../../assets/uploadIcon.png"
+                    :src="formEstoque.imgCapa"
                     alt=""
-                    @click="funcaoAtivarInputFileImageCorrespondente(index)"
-                  />
+                    @click="
+                      funcaoAtivarInputFileImageCorrespondente('imgCapa', index)
+                    "
+                  /><!-- @click="openFileDialog"  -->
                 </div>
-                <div id="cancel-btn">
-                  <img
-                    src="../../../../assets/closeIcon.png"
-                    alt=""
-                    @click="apagarImagem(index)"
+                <div class="content">
+                  <div class="icon">
+                    <img
+                      src="../../../../assets/uploadIcon.png"
+                      alt=""
+                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                    />
+                  </div>
+                  <div id="cancel-btn">
+                    <img
+                      src="../../../../assets/closeIcon.png"
+                      alt=""
+                      @click="apagarImagem('imgCapa',index)"
+                    />
+                    <div class="file-name">{{}}</div>
+                  </div>
+                  <input
+                    hidden
+                    name="imgCapa"
+                    accept="image/*"
+                    :id="'imagemInput_' + 'imgCapa' + index"
+                    type="file"
+                    @change="uploadImagemCapa"
+                    v-on:change="captarIndexImagem(index)"
                   />
-                  <div class="file-name">{{ }}</div>
+                  {{ index }}
                 </div>
-                <input
-                  hidden
-                  name="imgCapa"
-                  accept="image/*"
-                  :id="'default-btn'+index"
-                  type="file"
-                  @change="uploadImagemCapa"
-                  v-on:change="captarIndexImagem(index)"
-                />
-                {{index}}
-              </div>
-            </div>
-          </div>
-
-          <!-- --------------END IMAGEM CAPA--------------- -->
-          <!-- ------------IMAGEM 1--------------------- -->
-          <div class="container">
-            <div class="wrapper">
-              <div class="image">
-                <img :src="formEstoque.imgCapa" alt="" @click="funcaoAtivarInputFileImageCorrespondente(index)" /><!-- @click="openFileDialog"  -->
-              </div>
-              <div class="content">
-                <div class="icon">
-                  <img
-                    src="../../../../assets/uploadIcon.png"
-                    alt=""
-                    @click="funcaoAtivarInputFileImageCorrespondente(index)"
-                  />
-                </div>
-                <div id="cancel-btn">
-                  <img
-                    src="../../../../assets/closeIcon.png"
-                    alt=""
-                    @click="apagarImagem(index)"
-                  />
-                  <div class="file-name">{{ }}</div>
-                </div>
-                <input
-                  hidden
-                  name="imgCapa"
-                  accept="image/*"
-                  :id="'default-btn'+index"
-                  type="file"
-                  @change="uploadImagemCapa"
-                  v-on:change="captarIndexImagem(index)"
-                />
-                {{index}}
               </div>
             </div>
+            <!-- --------------END IMAGEM CAPA--------------- -->
+            
+            <!-- ------------IMAGEM 1--------------------- -->
+            <div class="container_">
+              <div class="wrapper_">
+                <div class="image_">
+                  <img
+                    :src="formEstoque.img1"
+                    alt=""
+                    @click="
+                      funcaoAtivarInputFileImageCorrespondente('img1', index)
+                    "
+                  /><!-- @click="openFileDialog"  -->
+                </div>
+                <div class="content_">
+                  <div class="icon_">
+                    <img
+                      src="../../../../assets/uploadIcon.png"
+                      alt=""
+                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                    />
+                  </div>
+                  <div id="cancel-btn_">
+                    <img
+                      src="../../../../assets/closeIcon.png"
+                      alt=""
+                      @click="apagarImagem('img1',index)"
+                    />
+                    <div class="file-name_">{{}}</div>
+                  </div>
+                  <input
+                    hidden
+                    name="img1"
+                    accept="image/*"
+                    :id="'imagemInput_' + 'img1' + index"
+                    type="file"
+                    @change="uploadImagemCapa"
+                    v-on:change="captarIndexImagem(index)"
+                  />
+                  {{ index }}
+                </div>
+              </div>
+            </div>
+            <!-- --------------END IMAGEM 1 --------------- -->
+
+             <!-- ------------IMAGEM 2--------------------- -->
+            <div class="container_">
+              <div class="wrapper_">
+                <div class="image_">
+                  <img
+                    :src="formEstoque.img2"
+                    alt=""
+                    @click="
+                      funcaoAtivarInputFileImageCorrespondente('img2', index)
+                    "
+                  /><!-- @click="openFileDialog"  -->
+                </div>
+                <div class="content_">
+                  <div class="icon_">
+                    <img
+                      src="../../../../assets/uploadIcon.png"
+                      alt=""
+                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                    />
+                  </div>
+                  <div id="cancel-btn_">
+                    <img
+                      src="../../../../assets/closeIcon.png"
+                      alt=""
+                      @click="apagarImagem('img2',index)"
+                    />
+                    <div class="file-name_">{{}}</div>
+                  </div>
+                  <input
+                    hidden
+                    name="img2"
+                    accept="image/*"
+                    :id="'imagemInput_' + 'img2' + index"
+                    type="file"
+                    @change="uploadImagemCapa"
+                    v-on:change="captarIndexImagem(index)"
+                  />
+                  {{ index }}
+                </div>
+              </div>
+            </div>
+            <!-- --------------END IMAGEM 2 --------------- -->
+
+             <!-- ------------IMAGEM 3--------------------- -->
+            <div class="container_">
+              <div class="wrapper_">
+                <div class="image_">
+                  <img
+                    :src="formEstoque.img3"
+                    alt=""
+                    @click="
+                      funcaoAtivarInputFileImageCorrespondente('img3', index)
+                    "
+                  /><!-- @click="openFileDialog"  -->
+                </div>
+                <div class="content_">
+                  <div class="icon_">
+                    <img
+                      src="../../../../assets/uploadIcon.png"
+                      alt=""
+                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                    />
+                  </div>
+                  <div id="cancel-btn_">
+                    <img
+                      src="../../../../assets/closeIcon.png"
+                      alt=""
+                      @click="apagarImagem('img3',index)"
+                    />
+                    <div class="file-name_">{{}}</div>
+                  </div>
+                  <input
+                    hidden
+                    name="img3"
+                    accept="image/*"
+                    :id="'imagemInput_' + 'img3' + index"
+                    type="file"
+                    @change="uploadImagemCapa"
+                    v-on:change="captarIndexImagem(index)"
+                  />
+                  {{ index }}
+                </div>
+              </div>
+            </div>
+            <!-- --------------END IMAGEM 3 --------------- -->
+
+             <!-- ------------IMAGEM 4--------------------- -->
+            <div class="container_">
+              <div class="wrapper_">
+                <div class="image_">
+                  <img
+                    :src="formEstoque.img4"
+                    alt=""
+                    @click="
+                      funcaoAtivarInputFileImageCorrespondente('img4', index)
+                    "
+                  /><!-- @click="openFileDialog"  -->
+                </div>
+                <div class="content_">
+                  <div class="icon_">
+                    <img
+                      src="../../../../assets/uploadIcon.png"
+                      alt=""
+                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                    />
+                  </div>
+                  <div id="cancel-btn_">
+                    <img
+                      src="../../../../assets/closeIcon.png"
+                      alt=""
+                      @click="apagarImagem('img4',index)"
+                    />
+                    <div class="file-name_">{{}}</div>
+                  </div>
+                  <input
+                    hidden
+                    name="img4"
+                    accept="image/*"
+                    :id="'imagemInput_' + 'img4' + index"
+                    type="file"
+                    @change="uploadImagemCapa"
+                    v-on:change="captarIndexImagem(index)"
+                  />
+                  {{ index }}
+                </div>
+              </div>
+            </div>
+            <!-- --------------END IMAGEM 4 --------------- -->
+
+
           </div>
 
-          <!-- --------------END IMAGEM 1--------------- -->
-          </div>
-          <br />
-          <span>Imagem 1</span>
-          <input
-            placeholder="Imagem Capa"
-            type="file"
-            name="img1"
-            accept="image/*"
-            @change="uploadImagemCapa"
-            v-on:change="captarIndexImagem(index)"
-          />
-          <br />
-          <span>Imagem 2</span>
-          <input
-            placeholder="Imagem Capa"
-            type="file"
-            name="img2"
-            accept="image/*"
-            @change="uploadImagemCapa"
-            v-on:change="captarIndexImagem(index)"
-          />
-          <br />
-          <span>Imagem 3</span>
-          <input
-            placeholder="Imagem Capa"
-            type="file"
-            name="img3"
-            accept="image/*"
-            @change="uploadImagemCapa"
-            v-on:change="captarIndexImagem(index)"
-          />
-          <br />
-          <span>Imagem 4</span>
-          <input
-            placeholder="Imagem Capa"
-            type="file"
-            name="img4"
-            accept="image/*"
-            @change="uploadImagemCapa"
-            v-on:change="captarIndexImagem(index)"
-          />
-          <!-- "'background-color: ${formEstoque.hex}'" -->
-          <!-- "{ backgroundColor: minhaCor } -->
-
-          <br />
-          <img :src="formEstoque.imgCapa" alt="" width="30" height="30" />
-          <img :src="formEstoque.img1" alt="" width="30" height="30" />
-          <img :src="formEstoque.img2" alt="" width="30" height="30" />
-          <img :src="formEstoque.img3" alt="" width="30" height="30" />
-          <img :src="formEstoque.img4" alt="" width="30" height="30" />
           <!-- Cria o o form do estoque do respectivo form acima -->
           <div
             style="cursor: pointer"
@@ -423,12 +517,12 @@ export default {
       });
   },
   methods: {
-    funcaoAtivarInputFileImageCorrespondente(index) {
+    funcaoAtivarInputFileImageCorrespondente(nomeImagem, index) {
       // Simula um clique no input para abrir a janela de seleção de arquivo
-      document.getElementById("default-btn"+index).click();
+      document.getElementById("imagemInput_" + nomeImagem + index).click();
     },
     uploadFile(event) {
-      console.log("estou dentro de uploadFile")
+      console.log("estou dentro de uploadFile");
       const file = event.target.files[0];
       if (file) {
         const leitor = new FileReader();
@@ -440,8 +534,8 @@ export default {
       }
       console.log(file.name);
     },
-    apagarImagem(index) {
-      this.formEstoque[index].imgCapa= "";
+    apagarImagem(nomeImagem,index) {
+      this.formEstoque[index][nomeImagem] = "";
       this.imageName = "Nenhuma imagem escolhinda ainda!";
     },
 
@@ -466,7 +560,7 @@ export default {
     },
     // para lidar com o upload de imagens, capta o index do formulário respectivo aonde está a imagem:
     captarIndexImagem(index) {
-      console.log("estou aqui no captarIndexImagem, no index: "+index);
+      console.log("estou aqui no captarIndexImagem, no index: " + index);
       this.indexParaSalvarImagem = index;
     },
     uploadImagemCapa(event) {
@@ -507,13 +601,14 @@ export default {
 img {
 }
 .container {
-  height: 100px;
-  width: 100px;
+   margin-inline: 5px;
+  height: 70px;
+  width: 70px;
   margin-bottom: 70px;
 }
 .container .wrapper {
   position: relative;
-  height: 100px;
+  height: 70px;
   width: 100%;
   border-radius: 10px;
   background: #fff;
@@ -526,7 +621,7 @@ img {
 .content .icon img {
   position: absolute;
   bottom: -60px;
-  right: 40px;
+  right: 25px;
   padding: 8px 0;
   height: 20px;
   width: 20px;
@@ -550,8 +645,8 @@ img {
 }
 .wrapper #cancel-btn {
   position: absolute;
-  left: 82px;
-  top: 4px;
+  left: 55px;
+  top: 3px;
   font-size: 12px;
   cursor: pointer;
 }
@@ -560,6 +655,73 @@ img {
   width: 12px;
 }
 .wrapper .file-name {
+  position: absolute;
+  bottom: -110px;
+  right: 0px;
+  width: 80px;
+  padding: 8px 0;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px; /* valor que cabe os 15 caracteres aproximadamente */
+}
+/* ----------------------------------- */
+.container_ {
+  margin: 5px;
+  height: 60px;
+  width: 60px;
+  margin-bottom: 70px;
+}
+.container_ .wrapper_ {
+  position: relative;
+  height: 60px;
+  width: 100%;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #2d2d2d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content_ .icon_ img {
+  position: absolute;
+  bottom: -64px;
+  right: 19px;
+  padding: 8px 0;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.wrapper_ .image_ {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrapper_ .image_ img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.wrapper_ #cancel-btn_ {
+  position: absolute;
+  left: 45px;
+  top: 3px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.wrapper_ #cancel-btn_ img {
+  height: 12px;
+  width: 12px;
+}
+.wrapper_ .file-name_ {
   position: absolute;
   bottom: -110px;
   right: 0px;
