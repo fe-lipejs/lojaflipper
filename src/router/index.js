@@ -38,7 +38,7 @@ const routes = [
     component: Carrinho
   },
   {
-    path: "/produto",
+    path: "/produto/:id_produto",
     name: "Produto",
     component: Produto
   },

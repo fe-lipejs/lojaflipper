@@ -1,162 +1,183 @@
 <template>
-<div>
+  <div>
     <!-- PRODUTO ESPECIFICAÇÕES-->
-  <div id="prod-espe">
-    <div id="prod-name">
-      Camisa Slim Em Algodão Com Manga Curta E Bolso Azul Escuro
-    </div>
-    <!-- CLASSIFICAÇÃO CLIENTES -->
-    <div id="rate">
-      <div id="rate-note">7,5</div>
-      <div id="rate-star">
-        <svg
-          width="20"
-          height="19"
-          viewBox="0 0 20 19"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-            fill="black"
-          />
-        </svg>
+    <div id="prod-espe">
+      <div id="prod-name">
+        {{this.produto.nomeProduto}}
       </div>
-    </div>
-  </div>
 
-  <!-- VISUALIÇÃO DO PRODUTO -->
-  <div id="prod-container">
-    <div id="prod-img">
-      <div class="prod-arrow-container prod-arrow-container-left">
-        <div id="prod-arrow">
+      <!-- CLASSIFICAÇÃO CLIENTES -->
+      <div id="rate">
+        <div id="rate-note">7,5</div>
+        <div id="rate-star">
           <svg
-            width="8"
-            height="14"
-            viewBox="0 0 8 14"
+            width="20"
+            height="19"
+            viewBox="0 0 20 19"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M1 13L7 7L1 1"
-              stroke="#868686"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </div>
-      </div>
-
-      <div class="prod-arrow-container">
-        <div id="prod-arrow">
-          <svg
-            width="8"
-            height="14"
-            viewBox="0 0 8 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1 13L7 7L1 1"
-              stroke="#868686"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
+              fill="black"
             />
           </svg>
         </div>
       </div>
     </div>
-    <div class="prod-pagi">
-      <div class="prod-pagi-dots"></div>
-      <div class="prod-pagi-dots selected"></div>
-      <div class="prod-pagi-dots"></div>
-      <div class="prod-pagi-dots"></div>
-      <div class="prod-pagi-dots"></div>
-    </div>
-  </div>
 
-  <!-- PREÇO -->
-  <div id="preco-container">
-    <div id="preco-container-valor">R$179,90</div>
-    <div id="preco-container-parcelas">
-      ou 7x de 34,46 no cartão de crédito*
-    </div>
-  </div>
+    <!-- VISUALIÇÃO DO PRODUTO -->
+    <div id="prod-container">
+      <div id="prod-img">
+        <div class="prod-arrow-container prod-arrow-container-left">
+          <div id="prod-arrow">
+            <svg
+              width="8"
+              height="14"
+              viewBox="0 0 8 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 13L7 7L1 1"
+                stroke="#868686"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
 
-  <!-- COR -->
-  <div id="cor-container">
-    <div id="cor-container-texto">
-      <div>Cor:</div>
-      <div>Azul</div>
+        <div class="prod-arrow-container">
+          <div id="prod-arrow">
+            <svg
+              width="8"
+              height="14"
+              viewBox="0 0 8 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 13L7 7L1 1"
+                stroke="#868686"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="prod-pagi">
+        <div class="prod-pagi-dots"></div>
+        <div class="prod-pagi-dots selected"></div>
+        <div class="prod-pagi-dots"></div>
+        <div class="prod-pagi-dots"></div>
+        <div class="prod-pagi-dots"></div>
+      </div>
     </div>
-    <div id="cor-container-cores">
-      <div></div>
-      <div></div>
-      <div></div>
+    {{ id_produto }}
+    <!-- PREÇO -->
+    <div id="preco-container">
+      <div id="preco-container-valor">R$ {{this.produto.precoPromocional}},00</div>
+      <div id="preco-container-parcelas">
+        ou 7x de R$ {{((this.produto.preco)/7)}} no cartão de crédito*
+      </div>
     </div>
-  </div>
-  <!-- TAMANHO -->
-  <div id="tamanho-container">
-    <div id="tamanho-container-texto">Tamanho:</div>
-    <div id="tamanho-container-tamanhos">
-      <div>P</div>
-      <div>M</div>
-      <div>G</div>
-      <div>GG</div>
-    </div>
-  </div>
 
-  <!-- FRETE -->
-  <div id="frete-container">
-    <div id="inserir-container">
-      <div>INSERIR CEP</div>
-      <input maxlength="8" type="text" name="" id="" />
+    <!-- COR -->
+    <div id="cor-container">
+      <div id="cor-container-texto">
+        <div>Cor:</div>
+        <div>Azul</div>
+      </div>
+      <div id="cor-container-cores">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
-    <div id="frete-button" ref="content">CALCULAR FRETE</div>
-  </div>
-  <!-- DESCRIÇÃO -->
-  <div id="desc-container">
-    <div>DESCRIÇÃO DO PRODUTO</div>
-    <div>
-      Após reorganização interna para melhor refletir o estilo dos nossos
-      clientes, ficamos felizes em anunciar que a Preston Field foi incorporada
-      pela Marfinno, que agora também contará com um segmento especial
-      ("Marfinno Social"). Nessa fase de transição, é possível que você receba
-      produtos com o nome antigo da marca. Não se preocupe, os produtos
-      permanecem os mesmos e todas as referências já estão em processo de
-      atualização pelo nosso time. Agradecemos pela compreensão e estamos à
-      disposição para esclarecer quaisquer dúvidas
+    <!-- TAMANHO -->
+    <div id="tamanho-container">
+      <div id="tamanho-container-texto">Tamanho:</div>
+      <div id="tamanho-container-tamanhos">
+        <div>P</div>
+        <div>M</div>
+        <div>G</div>
+        <div>GG</div>
+      </div>
     </div>
-  </div>
-  <!-- BOTÃO COMPRAR -->
-  <router-link to="/informacoes"
-    ><div
-      id="button-comprar"
-      class="buttonMovendo"
-      :class="{ buttonParado: buttonParado }"
+
+    <!-- FRETE -->
+    <div id="frete-container">
+      <div id="inserir-container">
+        <div>INSERIR CEP</div>
+        <input maxlength="8" type="text" name="" id="" />
+      </div>
+      <div id="frete-button" ref="content">CALCULAR FRETE</div>
+    </div>
+    <!-- DESCRIÇÃO -->
+    <div id="desc-container">
+      <div>DESCRIÇÃO DO PRODUTO</div>
+      <div>
+        Após reorganização interna para melhor refletir o estilo dos nossos
+        clientes, ficamos felizes em anunciar que a Preston Field foi
+        incorporada pela Marfinno, que agora também contará com um segmento
+        especial ("Marfinno Social"). Nessa fase de transição, é possível que
+        você receba produtos com o nome antigo da marca. Não se preocupe, os
+        produtos permanecem os mesmos e todas as referências já estão em
+        processo de atualização pelo nosso time. Agradecemos pela compreensão e
+        estamos à disposição para esclarecer quaisquer dúvidas
+      </div>
+    </div>
+    <!-- BOTÃO COMPRAR -->
+    <router-link to="/informacoes"
+      ><div
+        id="button-comprar"
+        class="buttonMovendo"
+        :class="{ buttonParado: buttonParado }"
+      >
+        <div>COMPRAR</div>
+      </div></router-link
     >
-      <div>COMPRAR</div>
-    </div></router-link>
-  <VejaTambem/>
-</div>
+    <VejaTambem />
+  </div>
 </template>
 <script>
+import axios from "axios";
 import VejaTambem from "@/components/VejaTambem.vue";
+
 export default {
-  name: 'Produto',
+  name: "Produto",
+  props: ["id_produto"],
   components: {
     VejaTambem,
   },
   data() {
     return {
       buttonParado: false,
+      produto: {},
     };
   },
-  // Os códigos abaixo determina até que ponto da tela
-  // o botão comprar deverá parar de mover no scroll
   mounted() {
+    const id_produto = this.$route.params.id_produto;
+
+    axios
+      .get("http://localhost:3000/produtos/" + id_produto)
+      .then((response) => {
+        this.produto = response.data;
+        console.log(this.produto);
+      })
+      .catch((error) => {
+        console.log("O ERRO FOI ESTE: " + error);
+      });
+
+   
+
+    // Os códigos abaixo determina até que ponto da tela
+    // o botão comprar deverá parar de mover no scroll
+
     window.addEventListener("scroll", this.handleScroll);
   },
   beforeDestroy() {

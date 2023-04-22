@@ -7,6 +7,10 @@
       align-items: center;
     "
   >
+    <div class="blurTela" :style="{ display: boxDisplay }">
+      -->
+      <div><img src="../../../../assets/loadingIcon.gif" alt="" /></div>
+    </div>
     <br /><br /><br />
 
     <div
@@ -192,7 +196,6 @@
           </div>
           <br />
           <div id="imagensContainer" style="display: flex">
-            
             <!-- ------------IMAGEM CAPA--------------------- -->
             <div class="container">
               <div class="wrapper">
@@ -210,14 +213,19 @@
                     <img
                       src="../../../../assets/uploadIcon.png"
                       alt=""
-                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                      @click="
+                        funcaoAtivarInputFileImageCorrespondente(
+                          'imgCapa',
+                          index
+                        )
+                      "
                     />
                   </div>
                   <div id="cancel-btn">
                     <img
                       src="../../../../assets/closeIcon.png"
                       alt=""
-                      @click="apagarImagem('imgCapa',index)"
+                      @click="apagarImagem('imgCapa', index)"
                     />
                     <div class="file-name">{{}}</div>
                   </div>
@@ -235,7 +243,7 @@
               </div>
             </div>
             <!-- --------------END IMAGEM CAPA--------------- -->
-            
+
             <!-- ------------IMAGEM 1--------------------- -->
             <div class="container_">
               <div class="wrapper_">
@@ -253,14 +261,16 @@
                     <img
                       src="../../../../assets/uploadIcon.png"
                       alt=""
-                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                      @click="
+                        funcaoAtivarInputFileImageCorrespondente('img1', index)
+                      "
                     />
                   </div>
                   <div id="cancel-btn_">
                     <img
                       src="../../../../assets/closeIcon.png"
                       alt=""
-                      @click="apagarImagem('img1',index)"
+                      @click="apagarImagem('img1', index)"
                     />
                     <div class="file-name_">{{}}</div>
                   </div>
@@ -279,7 +289,7 @@
             </div>
             <!-- --------------END IMAGEM 1 --------------- -->
 
-             <!-- ------------IMAGEM 2--------------------- -->
+            <!-- ------------IMAGEM 2--------------------- -->
             <div class="container_">
               <div class="wrapper_">
                 <div class="image_">
@@ -296,14 +306,16 @@
                     <img
                       src="../../../../assets/uploadIcon.png"
                       alt=""
-                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                      @click="
+                        funcaoAtivarInputFileImageCorrespondente('img2', index)
+                      "
                     />
                   </div>
                   <div id="cancel-btn_">
                     <img
                       src="../../../../assets/closeIcon.png"
                       alt=""
-                      @click="apagarImagem('img2',index)"
+                      @click="apagarImagem('img2', index)"
                     />
                     <div class="file-name_">{{}}</div>
                   </div>
@@ -322,7 +334,7 @@
             </div>
             <!-- --------------END IMAGEM 2 --------------- -->
 
-             <!-- ------------IMAGEM 3--------------------- -->
+            <!-- ------------IMAGEM 3--------------------- -->
             <div class="container_">
               <div class="wrapper_">
                 <div class="image_">
@@ -339,14 +351,16 @@
                     <img
                       src="../../../../assets/uploadIcon.png"
                       alt=""
-                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                      @click="
+                        funcaoAtivarInputFileImageCorrespondente('img3', index)
+                      "
                     />
                   </div>
                   <div id="cancel-btn_">
                     <img
                       src="../../../../assets/closeIcon.png"
                       alt=""
-                      @click="apagarImagem('img3',index)"
+                      @click="apagarImagem('img3', index)"
                     />
                     <div class="file-name_">{{}}</div>
                   </div>
@@ -365,7 +379,7 @@
             </div>
             <!-- --------------END IMAGEM 3 --------------- -->
 
-             <!-- ------------IMAGEM 4--------------------- -->
+            <!-- ------------IMAGEM 4--------------------- -->
             <div class="container_">
               <div class="wrapper_">
                 <div class="image_">
@@ -382,14 +396,16 @@
                     <img
                       src="../../../../assets/uploadIcon.png"
                       alt=""
-                      @click="funcaoAtivarInputFileImageCorrespondente(index)"
+                      @click="
+                        funcaoAtivarInputFileImageCorrespondente('img4', index)
+                      "
                     />
                   </div>
                   <div id="cancel-btn_">
                     <img
                       src="../../../../assets/closeIcon.png"
                       alt=""
-                      @click="apagarImagem('img4',index)"
+                      @click="apagarImagem('img4', index)"
                     />
                     <div class="file-name_">{{}}</div>
                   </div>
@@ -407,8 +423,6 @@
               </div>
             </div>
             <!-- --------------END IMAGEM 4 --------------- -->
-
-
           </div>
 
           <!-- Cria o o form do estoque do respectivo form acima -->
@@ -454,11 +468,13 @@
         <button @click="excluirFormEstoque(index)">Excluir</button>
       </div>
     </div>
-    <div id="linhas-divisoras"></div>
-    <button @click="uploadBancoDados(), exibirConsole()">
-      Salvar Informações
-    </button>
+  
+   
+    <div class="salvarInfButton" @click="uploadBancoDados(), exibirConsole()">
+      SALVAR
+    </div>
     <br />
+    
   </div>
 </template>
 
@@ -470,7 +486,7 @@ export default {
       categorias: [],
       subCategoriaNames: [],
       indexParaSalvarImagem: "",
-      teste: "",
+      boxDisplay: "none",
       imageName: "Nenhuma imagem escolhinda ainda!",
       imageSrc: "",
 
@@ -534,7 +550,7 @@ export default {
       }
       console.log(file.name);
     },
-    apagarImagem(nomeImagem,index) {
+    apagarImagem(nomeImagem, index) {
       this.formEstoque[index][nomeImagem] = "";
       this.imageName = "Nenhuma imagem escolhinda ainda!";
     },
@@ -588,7 +604,13 @@ export default {
           this.formEstoque,
         ])
         .then((response) => {
-          console.log("Resposta servidor: ", response.data);
+          this.boxDisplay = "block";
+          const self = this;
+          setTimeout(function () {
+            console.log("Resposta servidor: ", response.data.produto_id);
+            self.boxDisplay = "none";
+            self.$router.push('/produto/'+response.data.produto_id+'/')
+          }, 1000);
         })
         .catch((error) => {
           console.log("O ERRO FOI ESTE: " + error);
@@ -598,10 +620,29 @@ export default {
 };
 </script>
 <style scoped>
-img {
+.blurTela {
+  display: none;
+  position: fixed;
+  overflow-y: hidden;
+  width: 100%;
+  height: 1000vh;
+  background-color: rgba(44, 44, 44, 0.147);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+.blurTela div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.blurTela img {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  top: 50vh;
 }
 .container {
-   margin-inline: 5px;
+  margin-inline: 5px;
   height: 70px;
   width: 70px;
   margin-bottom: 70px;
@@ -850,5 +891,17 @@ textarea {
   outline: 1px solid rgb(144, 144, 144);
   height: 25px;
   width: 25px;
+}
+
+.salvarInfButton{
+  background-color: #000;
+  color: #fff;
+  width: 88%;
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  margin-top: 70px;
+  margin-inline: 10px;
+  cursor: pointer;
 }
 </style>
