@@ -1,28 +1,36 @@
 <template>
-  <div id="submenu">
-    <div>
-      <h1>HOME</h1>
+  <div>
+    <div id="submenu">
+      <div>
+        <h1>HOME</h1>
+      </div>
+      <SearchBox />
     </div>
-    <SearchBox />
+    <!-- <div id="novidades"></div> -->
+    <div id="destaques-semana">
+      <span>DESTAQUES DA SEMANA</span>
+    </div>
+    <br />
+    <!-- <DestaqueSemana /> -->
+    <ul>
+      <li v-for="produto in produtos" :key="produto._id">
+        <CardProdutos
+          :id="produto._id"
+          :titulo="produto.nomeProduto"
+          :preco="produto.preco"
+          :precoPromocional="produto.precoPromocional"
+          :produtoEstoque="produto.produtoEstoque"
+        />
+      </li>
+      <button @click="paginaAnterior" :disabled="paginaAtual === 1">
+        Anterior
+      </button>
+      <span> Página {{ paginaAtual }} de {{ totalPaginas }}</span>
+      <button @click="proximaPagina" :disabled="paginaAtual === totalPaginas">
+        Próxim
+      </button>
+    </ul>
   </div>
-  <!-- <div id="novidades"></div> -->
-  <div id="destaques-semana">
-    <span>DESTAQUES DA SEMANA</span>
-  </div>
-  <br />
-  <!-- <DestaqueSemana /> -->
-  <ul>
-    <li v-for="produto in produtos" :key="produto._id">
-      {{ produto.nomeProduto }} | R$ {{ produto.precoPromocional }},00
-    </li>
-    <button @click="paginaAnterior" :disabled="paginaAtual === 1">
-      Anterior
-    </button>
-    <span> Página {{ paginaAtual }} de {{ totalPaginas }}</span>
-    <button @click="proximaPagina" :disabled="paginaAtual === totalPaginas">
-      Próxim
-    </button>
-  </ul>
 </template>
 
 
@@ -60,43 +68,42 @@ h1 {
 </style>
 <script>
 import axios from "axios";
+import CardProdutos from "@/components/Views/Categoria/CardProdutos.vue";
 import SearchBox from "@/components/Searchbox.vue";
-import DestaqueSemana from "@/components/Views/Home_components/destaqueSemana.vue";
+//import DestaqueSemana from "@/components/Views/Home_components/destaqueSemana.vue";
 export default {
   data() {
     return {
       pesquisa: "",
+      //PAGINAÇÃO
       produtos: [],
-      nProdutos:'',
+      nProdutos: "",
       paginaAtual: 1,
       totalPaginas: 12,
-      limite: 4,
+      limite: 3,
       deslocamento: 0,
+
+      serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
-  /*   watch:{
-    pesquisa(){
-      this.buscarProdutos
-    }
-  }, */
+
   components: {
     SearchBox,
-    DestaqueSemana,
+    // DestaqueSemana,
+    CardProdutos,
   },
   mounted() {
-    this.exibirProdutos()
+    this.exibirProdutos();
   },
   methods: {
     async exibirProdutos() {
       await axios
         .get(
-          `http://localhost:3000/produtos-home/${this.limite}/${this.deslocamento}`
+          `${this.serverUrl}/produtos-home/${this.limite}/${this.deslocamento}`
         )
         .then((response) => {
           this.produtos = response.data.produtos;
-          this.nProdutos = response.data.numeroResultados
-
-          console.log(this.produtos)
+          this.nProdutos = response.data.numeroResultados;
           this.totalPaginas = Math.ceil(this.nProdutos / this.limite);
         })
         .catch((error) => {

@@ -1,27 +1,68 @@
 <template>
-  <a href="/produto">
+  <a :href="`/produto/${id}`">
     <div id="produto-container">
-      <div id="produto-img"></div>
-      <div id="produto-nome">Moto G52</div>
+      <div id="produto-img">
+        <img :src="imgCapa" alt="" />
+      </div>
+      <div id="produto-nome">{{ titulo }}</div>
       <div id="preco-container">
-        <div id="preco-old">R$ 199,90</div>
-        <div id="preco-new">R$ 139,90</div>
+        <div id="preco-old">R$ {{ preco }}</div>
+        <div id="preco-new">R$ {{ precoPromocional }}</div>
       </div>
       <div id="preco-parcelas">6X de R$23,32*</div>
+      
     </div>
+
   </a>
   <!-- <div id="produtos-divisao"></div> -->
 </template>
 <script>
+import axios from "axios";
 export default {
-  props:{
-        height: String,
-        width: String,
+  props: {
+    id: String,
+    titulo: String,
+    preco: Number,
+    precoPromocional: Number,
+    produtoEstoque: Object,
+  },
+  data() {
+    return {
+      imgCapa: "",
+      serverUrl: process.env.VUE_APP_SERVER_URL,
+      imageUrl: "",
+    };
+  },
+  mounted() {
+    //capta primeira key do array
+    const objProdutoEstoque = Object.keys(this.produtoEstoque).map((key) => {
+      return key;
+    });
+
+    const imgCapaServidor = this.produtoEstoque[objProdutoEstoque[0]].imagens.imgCapa;
+    this.getImageUrl(imgCapaServidor);
+  },
+  methods: {
+    getImageUrl(imgCapaServidor) {
+      const urlCompleta = `${this.serverUrl}/produtos-imagemcapa/${encodeURIComponent(imgCapaServidor)}`;
+      axios({
+        url: urlCompleta,
+        method: "GET",
+        responseType: "blob",
+      })
+        .then((response) => {
+          var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+          this.imgCapa = fileUrl
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-}
+  },
+};
 </script>
 <style scoped>
-a{
+a {
   text-decoration: none;
   color: #000;
 }
@@ -36,7 +77,10 @@ a{
   height: 300px;
   width: 250px;
 }
-
+#produto-img img {
+  height: 300px;
+  width: 250px;
+}
 #preco-container {
   display: flex;
   margin: 10px;

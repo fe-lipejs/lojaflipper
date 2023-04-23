@@ -609,7 +609,7 @@ export default {
           setTimeout(function () {
             console.log("Resposta servidor: ", response.data.produto_id);
             self.boxDisplay = "none";
-            self.$router.push('/produto/'+response.data.produto_id+'/')
+            //self.$router.push('/produto/'+response.data.produto_id+'/')
           }, 1000);
         })
         .catch((error) => {

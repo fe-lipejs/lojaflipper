@@ -3,7 +3,7 @@
     <!-- PRODUTO ESPECIFICAÇÕES-->
     <div id="prod-espe">
       <div id="prod-name">
-        {{this.produto.nomeProduto}}
+        {{ this.produto.nomeProduto }}
       </div>
 
       <!-- CLASSIFICAÇÃO CLIENTES -->
@@ -80,24 +80,34 @@
     {{ id_produto }}
     <!-- PREÇO -->
     <div id="preco-container">
-      <div id="preco-container-valor">R$ {{this.produto.precoPromocional}},00</div>
+      <div id="preco-container-valor">
+        R$ {{ this.produto.precoPromocional }},00
+      </div>
       <div id="preco-container-parcelas">
-        ou 7x de R$ {{((this.produto.preco)/7)}} no cartão de crédito*
+        ou 7x de R$ {{ this.produto.preco / 7 }} no cartão de crédito*
       </div>
     </div>
 
     <!-- COR -->
+
     <div id="cor-container">
       <div id="cor-container-texto">
         <div>Cor:</div>
-        <div>Azul</div>
+        <div>{{ corSelecionada }}</div>
       </div>
       <div id="cor-container-cores">
-        <div></div>
-        <div></div>
-        <div></div>
+        <div v-for="(value, index) in cores" :key="value">
+          
+          <!-- se o index for igual a selectedItemCor a classe do elemento receberá 'cor-selected' -->
+          <div
+            :class="{ 'cor-selected ': index === selectedItemCor }"
+            :style="`background-color: ${produtoEstoque[value].hex}`"
+            @click="captarNomeCor(value, index)"
+          ></div>
+        </div>
       </div>
     </div>
+    <br /><br />
     <!-- TAMANHO -->
     <div id="tamanho-container">
       <div id="tamanho-container-texto">Tamanho:</div>
@@ -131,6 +141,7 @@
         estamos à disposição para esclarecer quaisquer dúvidas
       </div>
     </div>
+
     <!-- BOTÃO COMPRAR -->
     <router-link to="/informacoes"
       ><div
@@ -141,55 +152,58 @@
         <div>COMPRAR</div>
       </div></router-link
     >
-    <VejaTambem />
   </div>
 </template>
 <script>
 import axios from "axios";
-import VejaTambem from "@/components/VejaTambem.vue";
 
 export default {
-  name: "Produto",
   props: ["id_produto"],
-  components: {
-    VejaTambem,
-  },
+  components: {},
   data() {
     return {
+      serverUrl: process.env.VUE_APP_SERVER_URL,
       buttonParado: false,
       produto: {},
+      produtoEstoque: {},
+      cores: {},
+      corIndex: 0,
+      selectedItemCor: null,
+      corSelecionada: null,
     };
   },
   mounted() {
+    /*   const objProdutoEstoque = Object.keys(this.produto.produtoEstoque).map((key) => {
+      return key;
+    }); */
+    //------------------------------------------------
     const id_produto = this.$route.params.id_produto;
-
     axios
-      .get("http://localhost:3000/produtos/" + id_produto)
+      .get(`${this.serverUrl}/produtos/${id_produto}`)
       .then((response) => {
         this.produto = response.data;
-        console.log(this.produto);
+        this.produtoEstoque = this.produto.produtoEstoque;
+
+        const objCores = Object.keys(this.produtoEstoque).map((key) => {
+          return key;
+        });
+        this.cores = objCores;
+        console.log();
       })
       .catch((error) => {
         console.log("O ERRO FOI ESTE: " + error);
       });
-
-   
-
-    // Os códigos abaixo determina até que ponto da tela
-    // o botão comprar deverá parar de mover no scroll
-
-    window.addEventListener("scroll", this.handleScroll);
-  },
-  beforeDestroy() {
-    window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
-    handleScroll() {
-      const content = this.$refs.content;
-      const posicaoContentTop = content.offsetTop;
-      const posicaoScrollPagina = window.pageYOffset;
-
-      this.buttonParado = posicaoScrollPagina > posicaoContentTop;
+    //ao clicar na cor aciona essa funcao:
+    captarNomeCor(value, index) {
+      if (index == this.selectedItemCor) {
+        this.selectedItemCor = null;
+        this.corSelecionada = null;
+      } else {
+        this.selectedItemCor = index;
+        this.corSelecionada = value;
+      }
     },
   },
 };
@@ -333,19 +347,24 @@ a {
 #cor-container-cores div {
   height: 37px;
   width: 37px;
-  background-color: black;
   border-radius: 100%;
   margin-right: 10px;
+    border: 2px solid #dbdbdb;
+
 }
-#cor-container-cores div:nth-child(2) {
-  background-color: rgb(49, 85, 140);
+.cor-selected {
   border: 2px solid #fff;
   outline: 2px solid black;
+}
+#cor-container-cores div:nth-child(2) {
+  /* background-color: rgb(49, 85, 140); */
+  border: 2px solid #fff;
+  /* outline: 2px solid black; */
   height: 35px;
   width: 35px;
 }
 #cor-container-cores div:nth-child(3) {
-  background-color: rgb(140, 49, 49);
+  /* background-color: rgb(140, 49, 49); */
 }
 /* TAMANHO */
 #tamanho-container-texto {

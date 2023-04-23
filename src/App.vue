@@ -39,7 +39,7 @@ export default {
   },
   
   mounted() {
-    console.log("estamos?: " + this.$route.path);
+    
     if (this.$route.name === "Carrinho") {
       this.showComponentRodape = false;
     }else{
