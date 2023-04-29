@@ -18,6 +18,8 @@
 * {
   margin: 0;
   padding: 0;
+  zoom: 1;
+
 }
 body {
   font-family: "Roboto", sans-serif;

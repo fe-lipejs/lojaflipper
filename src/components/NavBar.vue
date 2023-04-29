@@ -68,9 +68,11 @@
 
     <div ref="menuMobile" class="mobile-menu-container">
       <div v-on:click="abrirMenuMobile" class="mobile-menu-fechar">
+        <!-- <span style="color: #fff">fechar</span> -->
         <svg
-          width="26"
-          height="26"
+          class="fecharButton"
+          width="15"
+          height="56"
           viewBox="0 0 26 26"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -83,40 +85,78 @@
             stroke-linejoin="round"
           />
         </svg>
+
+        <div id="icon">
+          <router-link to="/">
+            <img
+              src="@/assets/Logomarca.png"
+              alt=""
+              width="40.3"
+              height="31.59"
+            />
+          </router-link>
+        </div>
       </div>
 
-      <router-link v-on:click="fecharMenuMobile" to="/"> <div class="mobile-menu-item">INÍCIO</div></router-link>
-      <router-link v-on:click="fecharMenuMobile" to="/categoria"><div class="mobile-menu-item">MASCULINO</div></router-link>
-      <router-link v-on:click="fecharMenuMobile" to="/categoria"> <div class="mobile-menu-item">FEMININO</div></router-link>
-      <router-link v-on:click="fecharMenuMobile" to="/login"><div class="mobile-menu-item">LOGIN</div></router-link>
+      <!-- <router-link v-on:click="fecharMenuMobile" to="/">
+        <div class="mobile-menu-item">INÍCIO</div></router-link
+      > -->
+      <router-link v-on:click="fecharMenuMobile" to="/categoria"
+        ><div class="mobile-menu-item">MASCULINO</div></router-link
+      >
+      <router-link v-on:click="fecharMenuMobile" to="/categoria">
+        <div class="mobile-menu-item">FEMININO</div></router-link
+      >
+      <router-link v-on:click="fecharMenuMobile" to="/login"
+        ><div class="mobile-menu-item">LOGIN</div></router-link
+      >
     </div>
     {{}}
   </div>
 </template>
 <style scoped>
+.fecharButton {
+  fill: red;
+}
+/* position: fixed;
+  margin-top: -20px;
+  background-color: #00000099;
+   background: linear-gradient(-90deg, #00000099, black); 
+  backdrop-filter: blur(3px);
+  width: 100%;
+  height: 200%;
+  text-align: left;
+  transform: translateX(00%);
+  opacity: 0; 
+  transition: transform,opacity 0.6s ease-in-out;
+ transition: opacity 0.4s ease-in-out; 
+  z-index: 100; */
 .mobile-menu-container {
   position: fixed;
   margin-top: -20px;
-  background-color: white;
+  background-color: rgba(0, 0, 0, 0.75);
+  background: linear-gradient(-90deg, #00000099 5%, black 95%);
+  backdrop-filter: blur(3px);
   width: 100%;
   height: 200%;
   text-align: left;
   transform: translateX(-100%);
-  transition: ease-in-out 0.5s;
+  opacity: 0;
+  transition: all 0.6s ease-in-out;
   z-index: 100;
 }
 .mobile-menu-item {
   margin: 20px;
-  margin-bottom: 40px;
-  font-size: 25px;
-  color: grey;
-  font-weight: 400;
-  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #c9c9c9;
+  font-weight: 200;
+  /* border-bottom: 1px solid #6d6d6d; */
 }
 .mobile-menu-fechar {
   margin: 20px;
-  margin-bottom: 60px;
-  font-size: 25px;
+  margin-bottom: 20px;
+  font-size: 15px;
   color: grey;
   font-weight: 400;
 }
@@ -137,7 +177,7 @@
   padding-inline: 1vh;
   color: white;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 500;
 }
 </style>
@@ -151,26 +191,35 @@ export default {
       menuMobileLigado: false,
     };
   },
-  mounted(){
-    
-  },
+  mounted() {},
   methods: {
     abrirMenuMobile(e) {
       if (this.menuMobileLigado == false) {
         this.menuMobileLigado = true;
         console.log(this.menuMobileLigado);
         this.$refs.menuMobile.style.transform = "translateX(00%)";
+        setTimeout(() => {
+          this.$nextTick(() => {
+            this.$refs.menuMobile.style.opacity = "1";
+          });
+        }, 200);
       } else if (this.menuMobileLigado == true) {
         this.menuMobileLigado = false;
         console.log(this.menuMobileLigado);
 
         this.$refs.menuMobile.style.transform = "translateX(-100%)";
+        setTimeout(() => {
+          this.$nextTick(() => {
+            this.$refs.menuMobile.style.opacity = "0";
+          });
+        }, 200);
       }
     },
-    fecharMenuMobile(){
-       this.menuMobileLigado = false;
-       this.$refs.menuMobile.style.transform = "translateX(-100%)";
-    }
+    fecharMenuMobile() {
+      this.menuMobileLigado = false;
+      this.$refs.menuMobile.style.transform = "translateX(-100%)";
+      this.$refs.menuMobile.style.opacity = "0";
+    },
   },
 };
 </script>

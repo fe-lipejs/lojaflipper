@@ -194,11 +194,11 @@ export default {
       corSelecionada: 0,
       //---------------------
       images: [
-        "BLUE/b1.png",
-        "BLUE/b2.png",
-        "BLUE/b3.png",
-        "BLUE/b4.png",
-        "BLUE/b5.png",
+        "BLUE/b1.webp",
+        "BLUE/b2.webp",
+        "BLUE/b3.webp",
+        "BLUE/b4.webp",
+        "BLUE/b5.webp",
       ],
       currentImage: 0,
     };
@@ -243,7 +243,7 @@ export default {
             this.$refs.mudarImagem.classList.remove("slide-esquerda");
             divElement.classList.add("slide-opacidade");
           });
-        }, 310);
+        }, 380);
       } else {
         this.$refs.mudarImagem.classList.add("slide-direita");
         setTimeout(() => {
@@ -253,14 +253,14 @@ export default {
             this.$refs.mudarImagem.classList.remove("slide-direita");
             divElement.classList.add("slide-opacidade");
           });
-        }, 310);
+        }, 380);
       }
       setTimeout(() => {
         this.$nextTick(() => {
           const divElement2 = this.$refs.mudarImagem;
           divElement2.classList.remove("slide-opacidade");
         });
-      });
+      },30);
       //----------------FIM ANIMAÇÃO----------------------------
 
       setTimeout(() => {
@@ -295,14 +295,18 @@ export default {
 
 <style scoped>
 .imagemProduto {
-  height: 300px;
-  width: 370px;
+  height: 55vh;
+  width: 100vw;
+ 
 }
 .slider-content {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #ebebeb;
+   
+
 }
 .displayNone {
   display: none;
