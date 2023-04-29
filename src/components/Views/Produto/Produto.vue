@@ -1,35 +1,61 @@
 <template>
   <div>
-    <!-- PRODUTO ESPECIFICAÇÕES-->
-    <div id="prod-espe">
-      <div id="prod-name">
-        {{ this.produto.nomeProduto }}
+    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <div class="slider-content">
+      <div>
+        <transition name="slide">
+          <img
+            class="imagemProduto"
+            ref="mudarImagem"
+            :src="require(`@/assets/${imageSrc}`)"
+            alt=""
+          />
+          <!-- class="slide-enter slide-leave-to" -->
+        </transition>
       </div>
-
-      <!-- CLASSIFICAÇÃO CLIENTES -->
-      <div id="rate">
-        <div id="rate-note">7,5</div>
-        <div id="rate-star">
-          <svg
-            width="20"
-            height="19"
-            viewBox="0 0 20 19"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-              fill="black"
-            />
-          </svg>
+      <br />
+      <div>
+        <button @click="mudarImagem(-1)">Anterior</button>
+        <button @click="mudarImagem(+1)">Próximo</button>
+      </div>
+      <div>
+        <div class="prod-pagi">
+          <div v-for="index,value in images.length" :key="value">
+            <div  class="prod-pagi-dots" :class="{ 'selected-dot ': value === currentImage }"
+></div>
+          </div>
         </div>
       </div>
-    </div>
+      <!-- PRODUTO ESPECIFICAÇÕES-->
+      <div id="prod-espe">
+        <div id="prod-name">
+          {{ this.produto.nomeProduto }}
+        </div>
 
-    <!-- VISUALIÇÃO DO PRODUTO -->
-    <div id="prod-container">
-      <div id="prod-img">
-        <div class="prod-arrow-container prod-arrow-container-left">
+        <!-- CLASSIFICAÇÃO CLIENTES -->
+        <div id="rate">
+          <div id="rate-note">7,5</div>
+          <div id="rate-star">
+            <svg
+              width="20"
+              height="19"
+              viewBox="0 0 20 19"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
+                fill="black"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISUALIÇÃO DO PRODUTO -->
+      <!-- <div id="prod-container">
+      <div class="prod-img prod-img-color-0"> -->
+      <!--   <div class="prod-arrow-container prod-arrow-container-left">
           <div id="prod-arrow">
             <svg
               width="8"
@@ -67,16 +93,12 @@
               />
             </svg>
           </div>
-        </div>
-      </div>
-      <div class="prod-pagi">
-        <div class="prod-pagi-dots"></div>
-        <div class="prod-pagi-dots selected"></div>
-        <div class="prod-pagi-dots"></div>
-        <div class="prod-pagi-dots"></div>
-        <div class="prod-pagi-dots"></div>
-      </div>
+        </div> -->
+      <!-- </div>
+      <div class="prod-img prod-img-color-1"></div>
+      <div class="prod-img prod-img-color-2"></div> -->
     </div>
+    -->
     {{ id_produto }}
     <!-- PREÇO -->
     <div id="preco-container">
@@ -97,7 +119,6 @@
       </div>
       <div id="cor-container-cores">
         <div v-for="(value, index) in cores" :key="value">
-          
           <!-- se o index for igual a selectedItemCor a classe do elemento receberá 'cor-selected' -->
           <div
             :class="{ 'cor-selected ': index === selectedItemCor }"
@@ -156,6 +177,7 @@
 </template>
 <script>
 import axios from "axios";
+import $ from "jquery";
 
 export default {
   props: ["id_produto"],
@@ -168,8 +190,17 @@ export default {
       produtoEstoque: {},
       cores: {},
       corIndex: 0,
-      selectedItemCor: null,
-      corSelecionada: null,
+      selectedItemCor: 0,
+      corSelecionada: 0,
+      //---------------------
+      images: [
+        "BLUE/b1.png",
+        "BLUE/b2.png",
+        "BLUE/b3.png",
+        "BLUE/b4.png",
+        "BLUE/b5.png",
+      ],
+      currentImage: 0,
     };
   },
   mounted() {
@@ -194,7 +225,60 @@ export default {
         console.log("O ERRO FOI ESTE: " + error);
       });
   },
+  computed: {
+    imageSrc() {
+      return this.images[this.currentImage];
+    },
+  },
   methods: {
+    //------alterar imagem do produto ao clicar no botão-----
+    mudarImagem(direcao) {
+      //----------------ÍNICIO ANIMAÇÃO-----------------------
+      if (direcao < 0) {
+        this.$refs.mudarImagem.classList.add("slide-esquerda");
+        setTimeout(() => {
+          this.$nextTick(() => {
+            const divElement = this.$refs.mudarImagem;
+            // faça algo com divElement
+            this.$refs.mudarImagem.classList.remove("slide-esquerda");
+            divElement.classList.add("slide-opacidade");
+          });
+        }, 310);
+      } else {
+        this.$refs.mudarImagem.classList.add("slide-direita");
+        setTimeout(() => {
+          this.$nextTick(() => {
+            const divElement = this.$refs.mudarImagem;
+            // faça algo com divElement
+            this.$refs.mudarImagem.classList.remove("slide-direita");
+            divElement.classList.add("slide-opacidade");
+          });
+        }, 310);
+      }
+      setTimeout(() => {
+        this.$nextTick(() => {
+          const divElement2 = this.$refs.mudarImagem;
+          divElement2.classList.remove("slide-opacidade");
+        });
+      });
+      //----------------FIM ANIMAÇÃO----------------------------
+
+      setTimeout(() => {
+        this.currentImage += direcao;
+
+        if (this.currentImage < 0) {
+          this.currentImage = this.images.length - 1;
+        } else if (this.currentImage >= this.images.length) {
+          this.currentImage = 0;
+        }
+
+        $(`#imageDot${this.currentImage}`).addClass("selected-dot");
+      
+      }, 310);
+    },
+
+    //-------------------------------------------------------
+
     //ao clicar na cor aciona essa funcao:
     captarNomeCor(value, index) {
       if (index == this.selectedItemCor) {
@@ -210,6 +294,40 @@ export default {
 </script>
 
 <style scoped>
+.imagemProduto {
+  height: 300px;
+  width: 370px;
+}
+.slider-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.displayNone {
+  display: none;
+}
+
+.slide-esquerda {
+  transform: translateX(-10%);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.slide-direita {
+  transform: translateX(10%);
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+}
+.slide-opacidade {
+  transform: translateX(00%);
+  opacity: 1;
+  /* transition: all 0.2s ease-in-out; */
+}
+
+.transition-image {
+}
+
 #prod-espe {
   margin: 10px;
   margin-top: 70px;
@@ -230,14 +348,24 @@ export default {
   color: rgb(161, 158, 158);
 }
 
-#prod-img {
+.prod-img {
   margin-top: 30px;
-  height: 400px;
-  width: 100%;
+  height: 600px;
+  width: 600px;
+}
+.prod-img-color-0 {
   background-color: #f1f1f1;
+}
+.prod-img-color-1 {
+  background-color: red;
+}
+.prod-img-color-2 {
+  background-color: blue;
 }
 #prod-container {
   position: relative;
+  display: flex;
+  justify-content: center;
 }
 .prod-pagi {
   display: flex;
@@ -249,11 +377,11 @@ export default {
   height: 8px;
   width: 8px;
   margin: 3px;
-  background-color: #e0e0e0;
+  background-color: #dfdfdf;
   cursor: pointer;
 }
-.selected {
-  background-color: #929292;
+.selected-dot {
+  background-color: #202020;
 }
 
 .prod-arrow-container {
@@ -349,8 +477,8 @@ a {
   width: 37px;
   border-radius: 100%;
   margin-right: 10px;
-    border: 2px solid #dbdbdb;
-
+  border: 2px solid #dbdbdb;
+  cursor: pointer;
 }
 .cor-selected {
   border: 2px solid #fff;
