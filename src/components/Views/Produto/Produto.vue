@@ -1,15 +1,36 @@
 <template>
   <div>
-    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br />
+    <!-- PRODUTO ESPECIFICAÇÕES-->
+    <div id="prod-espe">
+      <div id="prod-name">
+        {{ this.produto.nomeProduto }}
+      </div>
+
+      <!-- CLASSIFICAÇÃO CLIENTES -->
+      <div id="rate">
+        <div id="rate-note">7,5</div>
+        <div id="rate-star">
+          <svg
+            width="20"
+            height="19"
+            viewBox="0 0 20 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
+              fill="black"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- PRODUTO IMAGEM -->
     <div class="slider-content">
-      <div>
+      <div class="slider-container">
         <transition name="slide">
-          <img
-            class="imagemProduto"
-            ref="mudarImagem"
-            :src="require(`@/assets/${imageSrc}`)"
-            alt=""
-          />
+          <img class="imagemProduto" ref="mudarImagem" :src="imageSrc" alt="" />
           <!-- class="slide-enter slide-leave-to" -->
         </transition>
       </div>
@@ -20,34 +41,11 @@
       </div>
       <div>
         <div class="prod-pagi">
-          <div v-for="index,value in images.length" :key="value">
-            <div  class="prod-pagi-dots" :class="{ 'selected-dot ': value === currentImage }"
-></div>
-          </div>
-        </div>
-      </div>
-      <!-- PRODUTO ESPECIFICAÇÕES-->
-      <div id="prod-espe">
-        <div id="prod-name">
-          {{ this.produto.nomeProduto }}
-        </div>
-
-        <!-- CLASSIFICAÇÃO CLIENTES -->
-        <div id="rate">
-          <div id="rate-note">7,5</div>
-          <div id="rate-star">
-            <svg
-              width="20"
-              height="19"
-              viewBox="0 0 20 19"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"
-                fill="black"
-              />
-            </svg>
+          <div v-for="(index, value) in imagesUrl.length" :key="value">
+            <div
+              class="prod-pagi-dots"
+              :class="{ 'selected-dot ': value === currentImage }"
+            ></div>
           </div>
         </div>
       </div>
@@ -98,7 +96,7 @@
       <div class="prod-img prod-img-color-1"></div>
       <div class="prod-img prod-img-color-2"></div> -->
     </div>
-    -->
+
     {{ id_produto }}
     <!-- PREÇO -->
     <div id="preco-container">
@@ -127,16 +125,27 @@
           ></div>
         </div>
       </div>
+      <br />
+      <span style="color: red">{{
+        corSelecionada ? "" : "Selecione uma cor"
+      }}</span>
     </div>
     <br /><br />
     <!-- TAMANHO -->
     <div id="tamanho-container">
-      <div id="tamanho-container-texto">Tamanho:</div>
+      <div id="tamanho-container-texto">
+        Tamanho: <span style="font-weight: 600">{{ tamanhoSelecionado }}</span>
+      </div>
+      <br />
       <div id="tamanho-container-tamanhos">
-        <div>P</div>
-        <div>M</div>
-        <div>G</div>
-        <div>GG</div>
+        <ul v-for="(value, index) in tamanhosProduto" :key="value">
+          <div
+            @click="selecionarTamanhos(index, value.tamanho)"
+            :class="{ 'tamanho-selected ': index === selectedItemTamanho }"
+          >
+            {{ value.tamanho }}
+          </div>
+        </ul>
       </div>
     </div>
 
@@ -152,32 +161,25 @@
     <div id="desc-container">
       <div>DESCRIÇÃO DO PRODUTO</div>
       <div>
-        Após reorganização interna para melhor refletir o estilo dos nossos
-        clientes, ficamos felizes em anunciar que a Preston Field foi
-        incorporada pela Marfinno, que agora também contará com um segmento
-        especial ("Marfinno Social"). Nessa fase de transição, é possível que
-        você receba produtos com o nome antigo da marca. Não se preocupe, os
-        produtos permanecem os mesmos e todas as referências já estão em
-        processo de atualização pelo nosso time. Agradecemos pela compreensão e
-        estamos à disposição para esclarecer quaisquer dúvidas
+        {{ this.produto.descricao }}
       </div>
     </div>
 
     <!-- BOTÃO COMPRAR -->
-    <router-link to="/informacoes"
-      ><div
-        id="button-comprar"
-        class="buttonMovendo"
-        :class="{ buttonParado: buttonParado }"
-      >
-        <div>COMPRAR</div>
-      </div></router-link
+
+    <div
+      id="button-comprar"
+      class="buttonMovendo"
+      :class="{ buttonParado: buttonParado }"
     >
+      <div v-on:click="adicionarNoCarrinho">COMPRAR</div>
+    </div>
   </div>
 </template>
 <script>
 import axios from "axios";
 import $ from "jquery";
+import Cookies from "js-cookie";
 
 export default {
   props: ["id_produto"],
@@ -191,8 +193,15 @@ export default {
       cores: {},
       corIndex: 0,
       selectedItemCor: 0,
-      corSelecionada: 0,
+      corSelecionada: "",
+      tamanhoSelecionado: "",
+      tamanhosProduto: "",
+      selectedItemTamanho: 0,
+
       //---------------------
+      imagess: [],
+      imageDots: "",
+      imagesUrl: [],
       images: [
         "BLUE/b1.webp",
         "BLUE/b2.webp",
@@ -204,9 +213,6 @@ export default {
     };
   },
   mounted() {
-    /*   const objProdutoEstoque = Object.keys(this.produto.produtoEstoque).map((key) => {
-      return key;
-    }); */
     //------------------------------------------------
     const id_produto = this.$route.params.id_produto;
     axios
@@ -219,18 +225,99 @@ export default {
           return key;
         });
         this.cores = objCores;
-        console.log();
+        this.corSelecionada = this.cores[0];
+        this.exibirImagemProduto(this.corSelecionada);
       })
       .catch((error) => {
         console.log("O ERRO FOI ESTE: " + error);
       });
+    this.imageDot = this.imagesUrl.length;
   },
   computed: {
     imageSrc() {
-      return this.images[this.currentImage];
+      return this.imagesUrl[this.currentImage];
+      // return this.images[this.currentImage];
     },
   },
   methods: {
+   
+     adicionarNoCarrinho() {
+       console.log(this.corSelecionada)
+       console.log(this.tamanhoSelecionado)
+      if (!this.corSelecionada && !this.tamanhoSelecionado) {
+        console.log("Preencha os campos tamanho ou cor");
+      } else {
+        const dados = {
+          id: this.$route.params.id_produto,
+          nome: this.produto.nomeProduto,
+          imagem: this.imagess[0],
+          precoPromocional: this.produto.precoPromocional,
+          preco: this.produto.preco,
+          cor: this.corSelecionada,
+          tamanho: this.tamanhoSelecionado,
+          quantidade: 1,
+        };
+        // console.log("Adicionado no Carrinho");
+         axios
+          .post(`${this.serverUrl}/carrinho/adicionar`, [dados], {})
+          .then((response) => {
+            const self = this;
+            console.log("Adicionado ao Carrinho");
+            //  console.log(Cookies.get()); // exibe todos os cookies em um objeto
+          })
+          .catch((error) => {
+            console.log("O ERRO FOI ESTE: " + error);
+          });
+      }
+    },
+    //-------Controle de exibição de imagens do produto------
+    exibirImagemProduto(nomeCor) {
+      this.tamanhosProduto = this.produtoEstoque[nomeCor].estoque;
+      const imagensProduto = this.produtoEstoque[nomeCor].imagens;
+
+      this.imagess.length = 0;
+      this.imagess[0] = imagensProduto.imgCapa;
+      this.imagess[1] = imagensProduto.img1;
+      this.imagess[2] = imagensProduto.img2;
+      this.imagess[3] = imagensProduto.img3;
+      this.imagess[4] = imagensProduto.img4;
+
+      this.currentImage = 0; // atualiza a nova posicao para imageDots
+
+      for (let i = 0; i < this.imagess.length; i++) {
+        if (this.imagess[i] === undefined || this.imagess[i] === null) {
+          this.imagess.splice(i, 1); // remove elementos undefined ou nulos
+          i--; // decrementa o índice para continuar no próximo elemento
+        }
+      }
+
+      for (let index = 0; index < this.imagess.length; index++) {
+        this.imagesUrl.length = 0;
+
+        this.getImageUrl(this.imagess[index], index);
+      }
+    },
+    //-------------------------------------------------------
+
+    //---------------CONVENTER IMAGEM PRA URL----------------
+    getImageUrl(img, index) {
+      const urlCompleta = `${
+        this.serverUrl
+      }/produtos-imagemcapa/${encodeURIComponent(img)}`;
+      axios({
+        url: urlCompleta,
+        method: "GET",
+        responseType: "blob",
+      })
+        .then((response) => {
+          var fileUrl = window.URL.createObjectURL(new Blob([response.data]));
+          this.imagesUrl[index] = fileUrl;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    //-------------------------------------------------------
     //------alterar imagem do produto ao clicar no botão-----
     mudarImagem(direcao) {
       //----------------ÍNICIO ANIMAÇÃO-----------------------
@@ -260,25 +347,25 @@ export default {
           const divElement2 = this.$refs.mudarImagem;
           divElement2.classList.remove("slide-opacidade");
         });
-      },30);
+      }, 30);
       //----------------FIM ANIMAÇÃO----------------------------
 
       setTimeout(() => {
         this.currentImage += direcao;
 
         if (this.currentImage < 0) {
-          this.currentImage = this.images.length - 1;
-        } else if (this.currentImage >= this.images.length) {
+          this.currentImage = this.imagesUrl.length - 1;
+        } else if (this.currentImage >= this.imagesUrl.length) {
           this.currentImage = 0;
         }
-
         $(`#imageDot${this.currentImage}`).addClass("selected-dot");
-      
       }, 310);
     },
-
     //-------------------------------------------------------
-
+    selecionarTamanhos(index, nome) {
+      this.selectedItemTamanho = index;
+      this.tamanhoSelecionado = nome;
+    },
     //ao clicar na cor aciona essa funcao:
     captarNomeCor(value, index) {
       if (index == this.selectedItemCor) {
@@ -287,6 +374,7 @@ export default {
       } else {
         this.selectedItemCor = index;
         this.corSelecionada = value;
+        this.exibirImagemProduto(this.corSelecionada);
       }
     },
   },
@@ -297,16 +385,15 @@ export default {
 .imagemProduto {
   height: 55vh;
   width: 100vw;
- 
 }
 .slider-content {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.slider-container {
   background-color: #ebebeb;
-   
-
 }
 .displayNone {
   display: none;
@@ -515,7 +602,7 @@ a {
   align-items: center;
   border: 1px #989898 solid;
 }
-#tamanho-container-tamanhos div:nth-child(3) {
+.tamanho-selected {
   background-color: #000;
   border: 2px #000 solid;
   color: #fff;

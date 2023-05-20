@@ -1,17 +1,26 @@
 <template>
-  <div>
-    <br /><br /><br />
+  <div style="width: 90vw">
     <h3>Carrinho</h3>
+    <br /><br />
     <div class="endereco-entrega">
       <div>ENTREGAR PARA:</div>
       <div>JOÃO GOULART</div>
     </div>
+
     <br />
-    <ProdutoCarrinho />
-    <ProdutoCarrinho />
-    <ProdutoCarrinho />
-    <ProdutoCarrinho />
-    <ProdutoCarrinho />
+    <div v-for="(item, index) in carrinhoDados" :key="index">
+      <ProdutoCarrinho
+        :id="item.id"
+        :nome="item.nome"
+        :preco="item.preco"
+        :cor="item.cor"
+        :tamanho="item.tamanho"
+        :imagem="item.imagem"
+        :quantidadeProduto="item.quantidade"
+        @novoCarrinho="receberNovoCarrinho"
+      />
+    </div>
+
     <!-- INSERIR CUPOM -->
     <div id="cupom-container">
       <div id="inserir-container">
@@ -28,10 +37,11 @@
       </div>
       <div id="cupom-button">OK</div>
     </div>
-
+<div> Total | <h4>{{priceTotal}}</h4> </div>
     <!-- RESUMO DE COMPRA -->
     <div style="margin-top: 15px; margin-inline: 15px" class="resumo-container">
       <div class="nome-preco">
+       
         <div>SUBTOTAL</div>
         <div>R$ 179,90</div>
       </div>
@@ -57,7 +67,9 @@
         <div>CONTINUAR COMPRANDO</div>
         <div>
           <router-link to="/informacoes">
-            <div style="text-decoration: none; color: #fff">FINALIZAR COMPRA</div>
+            <div style="text-decoration: none; color: #fff">
+              FINALIZAR COMPRA
+            </div>
           </router-link>
         </div>
       </div>
@@ -70,8 +82,14 @@
 import ProdutoCarrinho from "@/components/Views/Carrinho/ProdutoCarrinho.vue";
 import Rodape from "../../Rodape.vue";
 import $ from "jquery";
+import axios from "axios";
+
 export default {
   name: "Carrinho",
+  props: {
+    carrinhoDados: Object,
+    priceTotal: Number
+  },
   components: {
     ProdutoCarrinho,
     Rodape,
@@ -80,10 +98,34 @@ export default {
   data() {
     return {
       showComponentRodape: true,
+      serverUrl: process.env.VUE_APP_SERVER_URL,
+      carrinho: {},
+      precoTotal: 0,
     };
   },
+  methods: {
+    calcularPrecoTotal() {
+      this.precoTotal = "";
+      console.log(this.carrinhoDados.length)
+      for (let index = 0; index < this.carrinhoDados.length; index++) {
+        
+        this.precoTotal = this.precoTotal + parseFloat(this.carrinhoDados[index].preco);     
+      }
+      return this.precoTotal
+    },
+    receberNovoCarrinho(dados) {
+      this.$emit("novoCarrinho", dados.data);
+    },
+  },
   mounted() {
-    // console.log("estamos?: " + this.$route.path);
+    axios
+      .get(`${this.serverUrl}/carrinho`, {
+        withCredentials: true,
+      })
+      .then((response) => {})
+      .catch((error) => {
+        console.log("O ERRO FOI ESTE: " + error);
+      });
 
     if (this.$route.path === "/carrinho") {
       // this.$refs.rodape.style.display = "none"

@@ -18,6 +18,7 @@
     "core-js": "^3.8.3",
     "jquery": "^3.6.3",
     "jquery-touchswipe": "^1.6.19",
+    "js-cookie": "^3.0.5",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13"
   },
