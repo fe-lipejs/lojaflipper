@@ -259,7 +259,10 @@ export default {
         };
         // console.log("Adicionado no Carrinho");
          axios
-          .post(`${this.serverUrl}/carrinho/adicionar`, [dados], {})
+          //.post(`${this.serverUrl}/carrinho/adicionar`, [dados], {})
+          .post(`${this.serverUrl}/carrinho/adicionar`, [dados], {
+            withCredentials: true
+          })
           .then((response) => {
             const self = this;
             console.log("Adicionado ao Carrinho");

@@ -3,7 +3,7 @@
     <div ref="container" class="container">
       <div style="display: flex">
         <div class="produtoImagem">
-          <img height="100"  width="94"  :src="imagemCapa" alt="" />
+          <img height="100" width="94" :src="imagemCapa" alt="" />
         </div>
         <div class="produtoInformacoes">
           <div>{{ nome }}</div>
@@ -85,7 +85,7 @@ export default {
     return {
       serverUrl: process.env.VUE_APP_SERVER_URL,
 
-      quantidade: 1,
+      quantidade: this.quantidadeProduto,
       estoque: 7,
       imagemCapa: "",
     };
@@ -121,7 +121,6 @@ export default {
         });
     },
     quantidadeFuncao(e) {
-      this.quantidade = this.quantidadeProduto;
       this.quantidade = this.quantidade + e;
       if (this.quantidade < 1) {
         this.quantidade = 1;
@@ -133,6 +132,9 @@ export default {
       axios
         .delete(`${this.serverUrl}/carrinho-delete/${id}`)
         .then((response) => {
+          //console.log(response.data[0])
+          
+          
           //enviar a resposa como o novo carrinho para o elemento pai que vai para o elemento avó NavBar
           this.$emit("novoCarrinho", response);
         })

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 90vw">
+  <div  style="width: 90vw; overflow-y: auto;">
     <h3>Carrinho</h3>
     <br /><br />
     <div class="endereco-entrega">
@@ -114,7 +114,7 @@ export default {
       return this.precoTotal
     },
     receberNovoCarrinho(dados) {
-      this.$emit("novoCarrinho", dados.data);
+      this.$emit("novoCarrinho", dados);
     },
   },
   mounted() {

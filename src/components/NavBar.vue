@@ -112,8 +112,11 @@
 
     <div class="carrinho" ref="carrinho">
       <span @click="abrirCarrinho(0)">Fechar</span>
-      <Carrinho :carrinhoDados="carrinho" :priceTotal="precoTotal"  @novoCarrinho="receberNovoCarrinho"
-/>
+      <Carrinho
+        :carrinhoDados="carrinho"
+        :priceTotal="precoTotal"
+        @novoCarrinho="receberNovoCarrinho"
+      />
     </div>
   </div>
   <div class="cortinaFumaca" ref="cortinaFumaca"></div>
@@ -125,7 +128,7 @@
 
 .carrinho {
   position: absolute;
-  overflow-y: scroll;
+  overflow-y:visible;
   top: 0px;
   right: 0;
   z-index: 4;
@@ -211,6 +214,8 @@
 <script>
 import Carrinho from "@/components/Views/Carrinho/Carrinho.vue";
 import axios from "axios";
+//import BScroll from 'better-scroll';
+
 
 export default {
   name: "NavBar",
@@ -223,13 +228,25 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
+ 
   components: {
     Carrinho,
   },
-  mounted() {},
   methods: {
-    receberNovoCarrinho(cart){
-      this.carrinho =(cart);
+    handleScroll(event) {
+      event.preventDefault();
+      window.scrollTo(0, 0);
+    },
+    disableScroll() {
+      document.body.style.overflow = "hidden";
+    },
+    enableScroll() {
+      document.body.style.overflow = "auto";
+    },
+
+    receberNovoCarrinho(carrinhoAtualizado) {
+      this.carrinho = carrinhoAtualizado.data[0];
+      this.precoTotal = carrinhoAtualizado.data[1];
     },
     async abrirCarrinho(interruptor) {
       //GRÁFICOS E DESIGNS
@@ -238,11 +255,16 @@ export default {
         this.$refs.cortinaFumaca.style.zIndex = "-2";
         this.$refs.carrinho.style.opacity = "0";
         this.$refs.carrinho.style.transform = "translateX(100%)";
+        this.enableScroll();
+
+
       } else {
         this.$refs.carrinho.style.opacity = "1";
         this.$refs.cortinaFumaca.style.opacity = "1";
         this.$refs.cortinaFumaca.style.zIndex = "2";
         this.$refs.carrinho.style.transform = "translateX(00%)";
+        this.disableScroll();
+
       }
       //Carrinho
       await axios
@@ -260,6 +282,8 @@ export default {
 
     abrirMenuMobile(e) {
       if (this.menuMobileLigado == false) {
+        this.disableScroll();
+
         this.menuMobileLigado = true;
         this.$refs.menuMobile.style.transform = "translateX(00%)";
         setTimeout(() => {
@@ -269,6 +293,7 @@ export default {
         }, 200);
       } else if (this.menuMobileLigado == true) {
         this.menuMobileLigado = false;
+                this.enableScroll();
 
         this.$refs.menuMobile.style.transform = "translateX(-100%)";
         setTimeout(() => {
@@ -279,6 +304,8 @@ export default {
       }
     },
     fecharMenuMobile() {
+      this.enableScroll();
+
       this.menuMobileLigado = false;
       this.$refs.menuMobile.style.transform = "translateX(-100%)";
       this.$refs.menuMobile.style.opacity = "0";
