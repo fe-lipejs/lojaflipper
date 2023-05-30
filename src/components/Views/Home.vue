@@ -107,7 +107,7 @@ export default {
           this.totalPaginas = Math.ceil(this.nProdutos / this.limite);
         })
         .catch((error) => {
-          console.log("O ERRO FOI ESTE: " + error);
+          console.log( error);
         });
     },
 

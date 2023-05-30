@@ -3,8 +3,9 @@
     <div ref="container" class="container">
       <div style="display: flex">
         <div class="produtoImagem">
-          <img height="100" width="94" :src="imagemCapa" alt="" />
+          <img height="100" width="94" :src="getImageUrl(imagem)" alt="" />
         </div>
+        {{ estoqueProduto }}
         <div class="produtoInformacoes">
           <div>{{ nome }}</div>
           <div>{{ cor }}/{{ tamanho }}</div>
@@ -19,7 +20,7 @@
           <div v-on:click="quantidadeFuncao(+1)">+</div>
         </div>
         <div
-          @click="deletarItem(id)"
+          @click="deletarItem(_id)"
           style="cursor: pointer; text-decoration: underline; color: grey"
         >
           remover
@@ -86,11 +87,12 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
 
       quantidade: this.quantidadeProduto,
-      estoque: 7,
+      estoque: this.estoqueProduto,
       imagemCapa: "",
     };
   },
   props: {
+    _id: String,
     id: String,
     nome: String,
     preco: Number,
@@ -98,10 +100,16 @@ export default {
     tamanho: String,
     imagem: String,
     quantidadeProduto: Number,
+    estoqueProduto: Number,
   },
   mounted() {
     this.getImageUrl(this.imagem);
-  },
+  },/* 
+  computed: {
+    imageUrl() {
+      return this.getImageUrl(this.imagem);
+    },
+  }, */
   methods: {
     getImageUrl(img) {
       const urlCompleta = `${
@@ -119,6 +127,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      return this.imagemCapa;
     },
     quantidadeFuncao(e) {
       this.quantidade = this.quantidade + e;
@@ -128,15 +137,13 @@ export default {
         this.quantidade = this.estoque;
       }
     },
-    deletarItem(id) {
+    deletarItem(_id) {
       axios
-        .delete(`${this.serverUrl}/carrinho-delete/${id}`)
+        .delete(`${this.serverUrl}/carrinho-delete/${_id}`)
         .then((response) => {
-          //console.log(response.data[0])
-          
-          
           //enviar a resposa como o novo carrinho para o elemento pai que vai para o elemento avó NavBar
           this.$emit("novoCarrinho", response);
+          this.getImageUrl(this.imagem);
         })
         .catch((error) => {
           console.log(error);

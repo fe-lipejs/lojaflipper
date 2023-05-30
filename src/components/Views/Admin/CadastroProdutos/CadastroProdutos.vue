@@ -468,13 +468,11 @@
         <button @click="excluirFormEstoque(index)">Excluir</button>
       </div>
     </div>
-  
-   
+
     <div class="salvarInfButton" @click="uploadBancoDados(), exibirConsole()">
       SALVAR
     </div>
     <br />
-    
   </div>
 </template>
 
@@ -483,6 +481,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      serverUrl: process.env.VUE_APP_SERVER_URL,
       categorias: [],
       subCategoriaNames: [],
       indexParaSalvarImagem: "",
@@ -524,12 +523,12 @@ export default {
   },
   mounted() {
     axios
-      .get("http://localhost:3000/categorias")
+      .get(`${this.serverUrl}/categorias`)
       .then((response) => {
         this.categorias = response.data.categorias;
       })
       .catch((error) => {
-        console.log("O ERRO FOI ESTE: " + error);
+        console.log(error);
       });
   },
   methods: {
@@ -613,7 +612,7 @@ export default {
           }, 1000);
         })
         .catch((error) => {
-          console.log("O ERRO FOI ESTE: " + error);
+          console.log(error);
         });
     },
   },
@@ -893,7 +892,7 @@ textarea {
   width: 25px;
 }
 
-.salvarInfButton{
+.salvarInfButton {
   background-color: #000;
   color: #fff;
   width: 88%;

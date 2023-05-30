@@ -110,16 +110,25 @@
       >
     </div>
 
-    <div class="carrinho" ref="carrinho">
-      <span @click="abrirCarrinho(0)">Fechar</span>
-      <Carrinho
-        :carrinhoDados="carrinho"
-        :priceTotal="precoTotal"
-        @novoCarrinho="receberNovoCarrinho"
-      />
+    <div class="carrinho" style="margin-right: -12px" ref="carrinho">
+          
+          <span  @click="abrirCarrinho(0)">Fechar</span>
+          <br>
+          <Carrinho
+            :carrinhoDados="carrinho"
+            :priceTotal="precoTotal"
+            @novoCarrinho="receberNovoCarrinho"
+            @fecharCarrinho="fecharCart"
+
+          />
+      
     </div>
   </div>
-  <div class="cortinaFumaca" ref="cortinaFumaca"></div>
+  <div
+    class="cortinaFumaca"
+    @click="abrirCarrinho(0)"
+    ref="cortinaFumaca"
+  ></div>
 </template>
 <style scoped>
 .fecharButton {
@@ -128,18 +137,19 @@
 
 .carrinho {
   position: absolute;
-  overflow-y:visible;
+  overflow-y: auto;
+  height: 100vh;
   top: 0px;
   right: 0;
   z-index: 4;
   width: 350px;
-  height: 1000px;
   background: #fff;
   transform: translateX(110%);
   opacity: 1;
   box-shadow: -10px 0 20px -10px #2e2e2e;
   transition: all 0.5s ease-in-out;
 }
+
 .carrinho span {
   color: black;
   position: absolute;
@@ -147,6 +157,7 @@
   font-size: 18px;
   cursor: pointer;
 }
+
 .cortinaFumaca {
   position: absolute;
   /* background:  rgba(0, 0, 0, 0.); ; */
@@ -216,7 +227,6 @@ import Carrinho from "@/components/Views/Carrinho/Carrinho.vue";
 import axios from "axios";
 //import BScroll from 'better-scroll';
 
-
 export default {
   name: "NavBar",
   data() {
@@ -228,11 +238,15 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
- 
+
   components: {
     Carrinho,
   },
   methods: {
+    fecharCart(e){
+      this.abrirCarrinho(e)
+
+    },
     handleScroll(event) {
       event.preventDefault();
       window.scrollTo(0, 0);
@@ -245,8 +259,7 @@ export default {
     },
 
     receberNovoCarrinho(carrinhoAtualizado) {
-      this.carrinho = carrinhoAtualizado.data[0];
-      this.precoTotal = carrinhoAtualizado.data[1];
+      this.carrinho = carrinhoAtualizado.data;
     },
     async abrirCarrinho(interruptor) {
       //GRÁFICOS E DESIGNS
@@ -256,24 +269,19 @@ export default {
         this.$refs.carrinho.style.opacity = "0";
         this.$refs.carrinho.style.transform = "translateX(100%)";
         this.enableScroll();
-
-
       } else {
         this.$refs.carrinho.style.opacity = "1";
         this.$refs.cortinaFumaca.style.opacity = "1";
         this.$refs.cortinaFumaca.style.zIndex = "2";
         this.$refs.carrinho.style.transform = "translateX(00%)";
         this.disableScroll();
-
       }
       //Carrinho
       await axios
         .get(`${this.serverUrl}/carrinho/`)
         .then((response) => {
           const self = this;
-          self.carrinho = response.data[0];
-          self.precoTotal = response.data[1];
-          console.log(this.precoTotal);
+          self.carrinho = response.data;
         })
         .catch((error) => {
           console.log("O ERRO FOI ESTE: " + error);
@@ -293,7 +301,7 @@ export default {
         }, 200);
       } else if (this.menuMobileLigado == true) {
         this.menuMobileLigado = false;
-                this.enableScroll();
+        this.enableScroll();
 
         this.$refs.menuMobile.style.transform = "translateX(-100%)";
         setTimeout(() => {

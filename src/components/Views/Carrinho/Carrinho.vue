@@ -1,5 +1,5 @@
 <template>
-  <div  style="width: 90vw; overflow-y: auto;">
+  <div style="width: 90vw">
     <h3>Carrinho</h3>
     <br /><br />
     <div class="endereco-entrega">
@@ -10,6 +10,7 @@
     <br />
     <div v-for="(item, index) in carrinhoDados" :key="index">
       <ProdutoCarrinho
+        :_id="item._id"
         :id="item.id"
         :nome="item.nome"
         :preco="item.preco"
@@ -17,6 +18,7 @@
         :tamanho="item.tamanho"
         :imagem="item.imagem"
         :quantidadeProduto="item.quantidade"
+        :estoqueProduto="item.estoqueProduto"
         @novoCarrinho="receberNovoCarrinho"
       />
     </div>
@@ -37,11 +39,10 @@
       </div>
       <div id="cupom-button">OK</div>
     </div>
-<div> Total | <h4>{{priceTotal}}</h4> </div>
+
     <!-- RESUMO DE COMPRA -->
     <div style="margin-top: 15px; margin-inline: 15px" class="resumo-container">
       <div class="nome-preco">
-       
         <div>SUBTOTAL</div>
         <div>R$ 179,90</div>
       </div>
@@ -55,25 +56,28 @@
       </div>
     </div>
     <!-- TOTAL CONTAINER -->
-    <div class="total-container">
-      <div class="total">
-        <div class="total-cartao">
-          <div>6x de R$ 29,85</div>
-          <div>no cartão de crédito*</div>
+    <div class="container-compras">
+      <div class="total-container">
+        <div class="total">
+          <div class="total-cartao">
+            <div style="margin-left:-38px">6x de R$ {{ priceTotal / 6 }}</div>
+            <div>no cartão de crédito*</div>
+          </div>
+          <div style="margin-top:-8px" class="total-preco"><div style="color:grey;margin-left:-28px;font-weight:400; font-size:14px">Total:</div>R$ {{ priceTotal }}</div>
         </div>
-        <div class="total-preco">R$ 179,90</div>
-      </div>
-      <div class="btn-container">
-        <div>CONTINUAR COMPRANDO</div>
-        <div>
-          <router-link to="/informacoes">
-            <div style="text-decoration: none; color: #fff">
-              FINALIZAR COMPRA
-            </div>
+        <div  class="container-finalizarCompra">
+          <div @click="fecharCarrinho(0)">CONTINUAR COMPRANDO</div>
+          <router-link
+              style="text-decoration: none; color: inherit"
+              to="/informacoes"
+            >
+          <div  @click="fecharCarrinho(0)" style="color:#fff; background-color: #000">FINALIZAR COMPRA</div>
           </router-link>
         </div>
+        
       </div>
     </div>
+
     <!-- NÃO EXIBIR O CARRINHO NESSA PÁGINA: -->
   </div>
 </template>
@@ -88,7 +92,7 @@ export default {
   name: "Carrinho",
   props: {
     carrinhoDados: Object,
-    priceTotal: Number
+    priceTotal: Number,
   },
   components: {
     ProdutoCarrinho,
@@ -106,15 +110,18 @@ export default {
   methods: {
     calcularPrecoTotal() {
       this.precoTotal = "";
-      console.log(this.carrinhoDados.length)
+      console.log(this.carrinhoDados.length);
       for (let index = 0; index < this.carrinhoDados.length; index++) {
-        
-        this.precoTotal = this.precoTotal + parseFloat(this.carrinhoDados[index].preco);     
+        this.precoTotal =
+          this.precoTotal + parseFloat(this.carrinhoDados[index].preco);
       }
-      return this.precoTotal
+      return this.precoTotal;
     },
     receberNovoCarrinho(dados) {
       this.$emit("novoCarrinho", dados);
+    },
+    fecharCarrinho(fechar) {
+      this.$emit("fecharCarrinho", fechar);
     },
   },
   mounted() {
@@ -215,8 +222,6 @@ export default {
 
 /* TOTAL CONTAINER */
 .total-container {
-  position: fixed;
-  bottom: 0;
   width: 100%;
   padding-top: 10px;
   padding-bottom: 05px;
@@ -230,6 +235,7 @@ export default {
   align-items: center;
   margin: 7px;
   padding-bottom: 5px;
+  padding-inline: 3px;
 }
 .total-cartao div {
   color: #484848;
@@ -241,25 +247,29 @@ export default {
   font-weight: 900;
   font-size: 20px;
 }
-.btn-container {
+.container-compras {
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+}
+
+
+.container-finalizarCompra{
   display: flex;
   justify-content: space-around;
+  text-align: center;
+  font-size: 14.4px;
+  margin-top: 17px;
+  margin-bottom: 10px;
 }
-.btn-container div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48vw;
-  height: 14vw;
-  font-size: 14px;
+
+.container-finalizarCompra div{
+  border: 1px grey solid;
+  padding: 4px;
   cursor: pointer;
+  padding-inline: 5px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
-.btn-container div:nth-child(1) {
-  border: 1px solid #000;
-}
-.btn-container div:nth-child(2) {
-  color: #fff;
-  background-color: #000;
-  border: 1px solid #000;
-}
+
 </style>

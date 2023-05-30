@@ -140,13 +140,15 @@
       <div id="tamanho-container-tamanhos">
         <ul v-for="(value, index) in tamanhosProduto" :key="value">
           <div
-            @click="selecionarTamanhos(index, value.tamanho)"
+            @click="selecionarTamanhos(index, value.tamanho, value.quantidade)"
             :class="{ 'tamanho-selected ': index === selectedItemTamanho }"
           >
             {{ value.tamanho }}
           </div>
         </ul>
       </div>
+                {{estoqueProduto}}
+      <span style="color:red">{{estoqueProdutoInformacao}}</span>
     </div>
 
     <!-- FRETE -->
@@ -196,6 +198,8 @@ export default {
       corSelecionada: "",
       tamanhoSelecionado: "",
       tamanhosProduto: "",
+      estoqueProduto: "",
+      estoqueProdutoInformacao:"",
       selectedItemTamanho: 0,
 
       //---------------------
@@ -236,7 +240,6 @@ export default {
   computed: {
     imageSrc() {
       return this.imagesUrl[this.currentImage];
-      // return this.images[this.currentImage];
     },
   },
   methods: {
@@ -256,6 +259,7 @@ export default {
           cor: this.corSelecionada,
           tamanho: this.tamanhoSelecionado,
           quantidade: 1,
+          estoqueProduto: this.estoqueProduto
         };
         // console.log("Adicionado no Carrinho");
          axios
@@ -365,9 +369,19 @@ export default {
       }, 310);
     },
     //-------------------------------------------------------
-    selecionarTamanhos(index, nome) {
-      this.selectedItemTamanho = index;
+    selecionarTamanhos(index, nome, estoque) {
+      this.selectedItemTamanho = index; //apenas para mudar a cor do elemento quando for selecionado
       this.tamanhoSelecionado = nome;
+      this.estoqueProduto = parseInt(estoque)
+      
+      if (this.estoqueProduto <= 0) {
+        this.estoqueProdutoInformacao = "Produto Indisponível"
+      }else{
+      this.estoqueProdutoInformacao = ""
+      }
+
+      console.log(this.estoqueProduto);
+
     },
     //ao clicar na cor aciona essa funcao:
     captarNomeCor(value, index) {
