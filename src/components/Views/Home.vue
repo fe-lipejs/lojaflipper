@@ -11,6 +11,20 @@
       <span>DESTAQUES DA SEMANA</span>
     </div>
     <br />
+    <div>
+      <div>
+        <iframe
+          title="Spotify Embed: Recommendation Playlist"
+          :src="`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`"
+          width="100%"
+          height="100%"
+          style="min-height: 360px"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
     <!-- <DestaqueSemana /> -->
     <ul>
       <li v-for="produto in produtos" :key="produto._id">
@@ -37,7 +51,7 @@
 <style scoped>
 #submenu {
   background-color: #32cec9;
-  background: linear-gradient(180deg, #32cec9 80%, black);
+  background: linear-gradient(180deg, #353737 80%, black);
   height: 30em;
 }
 h1 {
@@ -74,6 +88,7 @@ import SearchBox from "@/components/Searchbox.vue";
 export default {
   data() {
     return {
+      playlistId: "7jwFOVOJCMaAoqE3twVb3c",
       pesquisa: "",
       //PAGINAÇÃO
       produtos: [],
@@ -107,7 +122,7 @@ export default {
           this.totalPaginas = Math.ceil(this.nProdutos / this.limite);
         })
         .catch((error) => {
-          console.log( error);
+          console.log(error);
         });
     },
 

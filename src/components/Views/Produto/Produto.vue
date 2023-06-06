@@ -182,6 +182,7 @@
 import axios from "axios";
 import $ from "jquery";
 import Cookies from "js-cookie";
+import eventBus from "./../../event-bus";
 
 export default {
   props: ["id_produto"],
@@ -245,6 +246,7 @@ export default {
   methods: {
    
      adicionarNoCarrinho() {
+      eventBus.$emit('nome-do-evento', 1);
        console.log(this.corSelecionada)
        console.log(this.tamanhoSelecionado)
       if (!this.corSelecionada && !this.tamanhoSelecionado) {

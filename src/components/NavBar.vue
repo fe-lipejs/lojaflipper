@@ -111,17 +111,14 @@
     </div>
 
     <div class="carrinho" style="margin-right: -12px" ref="carrinho">
-          
-          <span  @click="abrirCarrinho(0)">Fechar</span>
-          <br>
-          <Carrinho
-            :carrinhoDados="carrinho"
-            :priceTotal="precoTotal"
-            @novoCarrinho="receberNovoCarrinho"
-            @fecharCarrinho="fecharCart"
-
-          />
-      
+      <span @click="abrirCarrinho(0)">Fechar</span>
+      <br />
+      <Carrinho
+        :carrinhoDados="carrinho"
+        :priceTotal="precoTotal"
+        @novoCarrinho="receberNovoCarrinho"
+        @fecharCarrinho="fecharCart"
+      />
     </div>
   </div>
   <div
@@ -225,7 +222,7 @@
 <script>
 import Carrinho from "@/components/Views/Carrinho/Carrinho.vue";
 import axios from "axios";
-//import BScroll from 'better-scroll';
+import eventBus from "./event-bus";
 
 export default {
   name: "NavBar",
@@ -238,14 +235,17 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
-
+   created() {
+    eventBus.$on("nome-do-evento", dados => {
+      this.abrirCarrinho(dados)
+    });
+  },
   components: {
     Carrinho,
   },
   methods: {
-    fecharCart(e){
-      this.abrirCarrinho(e)
-
+    fecharCart(e) {
+      this.abrirCarrinho(e);
     },
     handleScroll(event) {
       event.preventDefault();

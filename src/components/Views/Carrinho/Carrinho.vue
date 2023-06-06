@@ -66,13 +66,15 @@
           <div style="margin-top:-8px" class="total-preco"><div style="color:grey;margin-left:-28px;font-weight:400; font-size:14px">Total:</div>R$ {{ priceTotal }}</div>
         </div>
         <div  class="container-finalizarCompra">
-          <div @click="fecharCarrinho(0)">CONTINUAR COMPRANDO</div>
           <router-link
               style="text-decoration: none; color: inherit"
               to="/informacoes"
             >
           <div  @click="fecharCarrinho(0)" style="color:#fff; background-color: #000">FINALIZAR COMPRA</div>
+         
           </router-link>
+          <div style="margin-top:7px" @click="fecharCarrinho(0)">CONTINUAR COMPRANDO</div>
+
         </div>
         
       </div>
@@ -255,7 +257,7 @@ export default {
 
 
 .container-finalizarCompra{
-  display: flex;
+  /* display: flex; */
   justify-content: space-around;
   text-align: center;
   font-size: 14.4px;
