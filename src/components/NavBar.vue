@@ -278,7 +278,9 @@ export default {
       }
       //Carrinho
       await axios
-        .get(`${this.serverUrl}/carrinho/`)
+        .get(`${this.serverUrl}/carrinho/`,{
+        withCredentials: true,
+        })
         .then((response) => {
           const self = this;
           self.carrinho = response.data;
