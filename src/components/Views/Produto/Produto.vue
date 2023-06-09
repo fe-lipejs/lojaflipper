@@ -147,8 +147,8 @@
           </div>
         </ul>
       </div>
-                {{estoqueProduto}}
-      <span style="color:red">{{estoqueProdutoInformacao}}</span>
+      {{ estoqueProduto }}
+      <span style="color: red">{{ estoqueProdutoInformacao }}</span>
     </div>
 
     <!-- FRETE -->
@@ -200,7 +200,7 @@ export default {
       tamanhoSelecionado: "",
       tamanhosProduto: "",
       estoqueProduto: "",
-      estoqueProdutoInformacao:"",
+      estoqueProdutoInformacao: "",
       selectedItemTamanho: 0,
 
       //---------------------
@@ -244,11 +244,10 @@ export default {
     },
   },
   methods: {
-   
-     adicionarNoCarrinho() {
-     // 
-       console.log(this.corSelecionada)
-       console.log(this.tamanhoSelecionado)
+    adicionarNoCarrinho() {
+      //
+      console.log(this.corSelecionada);
+      console.log(this.tamanhoSelecionado);
       if (!this.corSelecionada && !this.tamanhoSelecionado) {
         console.log("Preencha os campos tamanho ou cor");
       } else {
@@ -261,20 +260,16 @@ export default {
           cor: this.corSelecionada,
           tamanho: this.tamanhoSelecionado,
           quantidade: 1,
-          estoqueProduto: this.estoqueProduto
+          estoqueProduto: this.estoqueProduto,
         };
         // console.log("Adicionado no Carrinho");
-         axios
+        axios
           //.post(`${this.serverUrl}/carrinho/adicionar`, [dados], {})
           .post(`${this.serverUrl}/carrinho/adicionar`, [dados], {
-            withCredentials: true
+            withCredentials: true,
           })
-          .then((response) => {
-            const self = this;
-            console.log("Adicionado ao Carrinho"); 
-            //EU PODERIA COLOCAR AQUI JÁ O CARRINHO PRA JÁ SER CARREGADO  NO CÓDIGO $EMIT
-            eventBus.$emit('nome-do-evento', 1);
-            //  console.log(Cookies.get()); // exibe todos os cookies em um objeto
+          .then((res) => {
+            eventBus.$emit("novoCarrinhoAposComprar", res.data)
           })
           .catch((error) => {
             console.log("O ERRO FOI ESTE: " + error);
@@ -376,16 +371,15 @@ export default {
     selecionarTamanhos(index, nome, estoque) {
       this.selectedItemTamanho = index; //apenas para mudar a cor do elemento quando for selecionado
       this.tamanhoSelecionado = nome;
-      this.estoqueProduto = parseInt(estoque)
-      
+      this.estoqueProduto = parseInt(estoque);
+
       if (this.estoqueProduto <= 0) {
-        this.estoqueProdutoInformacao = "Produto Indisponível"
-      }else{
-      this.estoqueProdutoInformacao = ""
+        this.estoqueProdutoInformacao = "Produto Indisponível";
+      } else {
+        this.estoqueProdutoInformacao = "";
       }
 
       console.log(this.estoqueProduto);
-
     },
     //ao clicar na cor aciona essa funcao:
     captarNomeCor(value, index) {

@@ -156,13 +156,13 @@
 }
 
 .cortinaFumaca {
-  position: absolute;
+  position: fixed;
   /* background:  rgba(0, 0, 0, 0.); ; */
   background: rgba(22, 22, 22, 0.348);
   backdrop-filter: blur(15px);
   display: block;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   opacity: 0;
   z-index: -3;
   transition: all 1s ease-in-out;
@@ -235,29 +235,35 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
-  mounted(){
-       axios
-        .get(`${this.serverUrl}/carrinho/`, {
-          withCredentials: true,
-        })
-        .then((response) => {
-          const self = this;
-          self.carrinho = response.data;
-        
-        })
-        .catch((error) => {
-          console.log("O ERRO FOI ESTE: " + error);
-        }); 
+  mounted() {
+    axios
+      .get(`${this.serverUrl}/carrinho/`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        const self = this;
+        self.carrinho = response.data;
+      })
+      .catch((error) => {
+        console.log("O ERRO FOI ESTE: " + error);
+      });
   },
-   created() {
-     eventBus.$on("nome-do-evento", (dados) => {
-          this.abrirCarrinho(1);
-    })
-    eventBus.$on("novoCarrinho", (novoCarrinho) => {
-      this.carrinho = novoCarrinho
-    }) 
-  }, 
-  
+  created() {
+
+    eventBus.$on("novoCarrinhoAposComprar", (dados) => {
+          this.carrinho = dados;
+          this.abrirCarrinho(1)
+        })
+
+    eventBus.$on("novoCarrinhoAposDelete", (novoCarrinho) => {
+      this.carrinho = novoCarrinho;
+    });
+  },
+  /* watch: {
+    carrinho(x) {
+      console.log("Este é o novo carrinho hihi");
+    },
+  }, */
   components: {
     Carrinho,
   },
@@ -289,7 +295,6 @@ export default {
         .then((response) => {
           const self = this;
           self.carrinho = response.data;
-        
         })
         .catch((error) => {
           console.log("O ERRO FOI ESTE: " + error);

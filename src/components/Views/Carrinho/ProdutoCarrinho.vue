@@ -105,7 +105,7 @@ export default {
     estoqueProduto: Number,
   },
   watch:{
-    //após a atualização do carrinho, verifica se a variavel imagem mudou, caso sim, atualiza com o novo valor
+    //após a atualização do carrinho, verifica se a variavel imagem mudou, caso sim, atualiza com o
     imagem(imagemNovoValorAtualizado){
       this.getImageUrl(imagemNovoValorAtualizado);
     } 
@@ -160,7 +160,7 @@ export default {
             .then((response) => {
               const self = this;
 
-              eventBus.$emit("novoCarrinho", response.data);
+              eventBus.$emit("novoCarrinhoAposDelete", response.data);
             });
           //enviar a resposa como o novo carrinho para o elemento pai que vai para o elemento avó NavBar
           /* this.$emit("novoCarrinho", response);
