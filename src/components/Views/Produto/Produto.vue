@@ -246,7 +246,7 @@ export default {
   methods: {
    
      adicionarNoCarrinho() {
-      eventBus.$emit('nome-do-evento', 1);
+     // 
        console.log(this.corSelecionada)
        console.log(this.tamanhoSelecionado)
       if (!this.corSelecionada && !this.tamanhoSelecionado) {
@@ -271,7 +271,9 @@ export default {
           })
           .then((response) => {
             const self = this;
-            console.log("Adicionado ao Carrinho");
+            console.log("Adicionado ao Carrinho"); 
+            //EU PODERIA COLOCAR AQUI JÁ O CARRINHO PRA JÁ SER CARREGADO  NO CÓDIGO $EMIT
+            eventBus.$emit('nome-do-evento', 1);
             //  console.log(Cookies.get()); // exibe todos os cookies em um objeto
           })
           .catch((error) => {

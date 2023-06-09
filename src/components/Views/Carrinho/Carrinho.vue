@@ -8,6 +8,7 @@
     </div>
 
     <br />
+
     <div v-for="(item, index) in carrinhoDados" :key="index">
       <ProdutoCarrinho
         :_id="item._id"
@@ -127,14 +128,14 @@ export default {
     },
   },
   mounted() {
-    axios
+    /* axios
       .get(`${this.serverUrl}/carrinho`, {
         withCredentials: true,
       })
       .then((response) => {})
       .catch((error) => {
         console.log("O ERRO FOI ESTE: " + error);
-      });
+      }); */
 
     if (this.$route.path === "/carrinho") {
       // this.$refs.rodape.style.display = "none"

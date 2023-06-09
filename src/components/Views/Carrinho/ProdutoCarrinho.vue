@@ -3,7 +3,7 @@
     <div ref="container" class="container">
       <div style="display: flex">
         <div class="produtoImagem">
-          <img height="100" width="94" :src="getImageUrl(imagem)" alt="" />
+          <img height="100" width="94" :src="imagemCapa" alt="" />
         </div>
         {{ estoqueProduto }}
         <div class="produtoInformacoes">
@@ -19,8 +19,9 @@
           <div>{{ quantidade }}</div>
           <div v-on:click="quantidadeFuncao(+1)">+</div>
         </div>
+      
         <div
-          @click="deletarItem(_id)"
+          @click="deletarItem(id,cor,tamanho)"
           style="cursor: pointer; text-decoration: underline; color: grey"
         >
           remover
@@ -80,6 +81,7 @@
 
 <script>
 import axios from "axios";
+import eventBus from '@/components/event-bus';
 
 export default {
   data() {
@@ -102,14 +104,15 @@ export default {
     quantidadeProduto: Number,
     estoqueProduto: Number,
   },
+  watch:{
+    //após a atualização do carrinho, verifica se a variavel imagem mudou, caso sim, atualiza com o novo valor
+    imagem(imagemNovoValorAtualizado){
+      this.getImageUrl(imagemNovoValorAtualizado);
+    } 
+  },
   mounted() {
     this.getImageUrl(this.imagem);
-  },/* 
-  computed: {
-    imageUrl() {
-      return this.getImageUrl(this.imagem);
-    },
-  }, */
+  }, 
   methods: {
     getImageUrl(img) {
       const urlCompleta = `${
@@ -127,7 +130,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-      return this.imagemCapa;
+      //this.imagemCapa;
     },
     quantidadeFuncao(e) {
       this.quantidade = this.quantidade + e;
@@ -137,13 +140,31 @@ export default {
         this.quantidade = this.estoque;
       }
     },
-    deletarItem(_id) {
+    deletarItem(id,cor,tamanho) {
+       const dadosDelete = {
+        id: id,
+        nome: this.nome,
+        tamanho: this.tamanho,
+        cor: this.cor,
+        imagemCapa: this.imagemCapa,
+      };
       axios
-        .delete(`${this.serverUrl}/carrinho-delete/${_id}`)
-        .then((response) => {
+        .post(`${this.serverUrl}/carrinho-delete/${id}/${cor}/${tamanho}`, dadosDelete, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          axios
+            .get(`${this.serverUrl}/carrinho/`, {
+              withCredentials: true,
+            })
+            .then((response) => {
+              const self = this;
+
+              eventBus.$emit("novoCarrinho", response.data);
+            });
           //enviar a resposa como o novo carrinho para o elemento pai que vai para o elemento avó NavBar
-          this.$emit("novoCarrinho", response);
-          this.getImageUrl(this.imagem);
+          /* this.$emit("novoCarrinho", response);
+          this.getImageUrl(this.imagem); */
         })
         .catch((error) => {
           console.log(error);

@@ -158,11 +158,11 @@
 .cortinaFumaca {
   position: absolute;
   /* background:  rgba(0, 0, 0, 0.); ; */
-  background: rgba(67, 66, 66, 0);
+  background: rgba(22, 22, 22, 0.348);
   backdrop-filter: blur(15px);
   display: block;
   width: 100%;
-  height: 1000px;
+  height: 100vh;
   opacity: 0;
   z-index: -3;
   transition: all 1s ease-in-out;
@@ -235,11 +235,29 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
     };
   },
-   created() {
-    eventBus.$on("nome-do-evento", dados => {
-      this.abrirCarrinho(dados)
-    });
+  mounted(){
+       axios
+        .get(`${this.serverUrl}/carrinho/`, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          const self = this;
+          self.carrinho = response.data;
+        
+        })
+        .catch((error) => {
+          console.log("O ERRO FOI ESTE: " + error);
+        }); 
   },
+   created() {
+     eventBus.$on("nome-do-evento", (dados) => {
+          this.abrirCarrinho(1);
+    })
+    eventBus.$on("novoCarrinho", (novoCarrinho) => {
+      this.carrinho = novoCarrinho
+    }) 
+  }, 
+  
   components: {
     Carrinho,
   },
@@ -257,12 +275,26 @@ export default {
     enableScroll() {
       document.body.style.overflow = "auto";
     },
-
     receberNovoCarrinho(carrinhoAtualizado) {
       this.carrinho = carrinhoAtualizado.data;
     },
+
     async abrirCarrinho(interruptor) {
       //GRÁFICOS E DESIGNS
+      //Carrinho
+      await axios
+        .get(`${this.serverUrl}/carrinho/`, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          const self = this;
+          self.carrinho = response.data;
+        
+        })
+        .catch((error) => {
+          console.log("O ERRO FOI ESTE: " + error);
+        });
+
       if (interruptor == 0) {
         this.$refs.cortinaFumaca.style.opacity = "0";
         this.$refs.cortinaFumaca.style.zIndex = "-2";
@@ -276,18 +308,6 @@ export default {
         this.$refs.carrinho.style.transform = "translateX(00%)";
         this.disableScroll();
       }
-      //Carrinho
-      await axios
-        .get(`${this.serverUrl}/carrinho/`,{
-        withCredentials: true,
-        })
-        .then((response) => {
-          const self = this;
-          self.carrinho = response.data;
-        })
-        .catch((error) => {
-          console.log("O ERRO FOI ESTE: " + error);
-        });
     },
 
     abrirMenuMobile(e) {
