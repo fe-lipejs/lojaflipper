@@ -19,13 +19,13 @@
           <div>{{ quantidade }}</div>
           <div v-on:click="quantidadeFuncao(+1)">+</div>
         </div>
-      
+      <a href="#" style="color: inherit;  text-decoration: none;" @click="deletarItem(id,cor,tamanho)">
         <div
-          @click="deletarItem(id,cor,tamanho)"
           style="cursor: pointer; text-decoration: underline; color: grey"
         >
           remover
         </div>
+        </a>
         <button></button>
       </div>
     </div>

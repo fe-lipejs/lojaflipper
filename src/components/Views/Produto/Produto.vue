@@ -147,18 +147,20 @@
           </div>
         </ul>
       </div>
-      {{ estoqueProduto }}
+      
       <span style="color: red">{{ estoqueProdutoInformacao }}</span>
     </div>
 
     <!-- FRETE -->
     <div id="frete-container">
-      <div id="inserir-container">
+      <div id="inserir-container" >
         <div>INSERIR CEP</div>
-        <input maxlength="8" type="text" name="" id="" />
+        <input v-model="cep" maxlength="8" type="number" name="" id="" />
       </div>
-      <div id="frete-button" ref="content">CALCULAR FRETE</div>
+      <div  @click="informarCep(cep)" id="frete-button" ref="content">CALCULAR FRETE</div><br>
     </div>
+    <div style="color:red;padding-bottom: 2px; margin-top: -10px; margin-left: 3px;border-bottom: 1px solid #e3e3e3; ">{{cepInformacao}}</div>
+    
     <!-- DESCRIÇÃO -->
     <div id="desc-container">
       <div>DESCRIÇÃO DO PRODUTO</div>
@@ -168,14 +170,18 @@
     </div>
 
     <!-- BOTÃO COMPRAR -->
-
-    <div
-      id="button-comprar"
-      class="buttonMovendo"
-      :class="{ buttonParado: buttonParado }"
+    <a
+      style="color: inherit; text-decoration: none"
+      @click="adicionarNoCarrinho"
     >
-      <div v-on:click="adicionarNoCarrinho">COMPRAR</div>
-    </div>
+      <div
+        id="button-comprar"
+        class="buttonMovendo"
+        :class="{ buttonParado: buttonParado }"
+      >
+        <div>COMPRAR</div>
+      </div>
+    </a>
   </div>
 </template>
 <script>
@@ -215,6 +221,9 @@ export default {
         "BLUE/b5.webp",
       ],
       currentImage: 0,
+      //---------------------
+      cep:'',
+      cepInformacao:''
     };
   },
   mounted() {
@@ -244,6 +253,34 @@ export default {
     },
   },
   methods: {
+    informarCep(numero) {
+      if (Number.isInteger(numero) && !/[.,]/.test(numero)) {
+         var numeroString = numero.toString(); // Converte o número para uma string
+        var quantidadeDigitos = numeroString.length;
+
+        if (quantidadeDigitos == 8) {
+          axios
+            .get(`https://viacep.com.br/ws/${numero}/json/`)
+            .then((response) => {
+              const data = response.data;
+              if(data.erro == true){
+                this.cepInformacao = ('CEP inválido');
+              }else{
+                alert("CEP salvo: \n"+data.logradouro+", "+data.bairro)
+                console.log(data);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
+        } else {
+          this.cepInformacao = ("Informe os 8 números do CEP");
+        }
+      } else {
+        this.cepInformacao = ("Digite apenas números");
+      }
+    },
     adicionarNoCarrinho() {
       //
       console.log(this.corSelecionada);
@@ -269,7 +306,7 @@ export default {
             withCredentials: true,
           })
           .then((res) => {
-            eventBus.$emit("novoCarrinhoAposComprar", res.data)
+            eventBus.$emit("novoCarrinhoAposComprar", res.data);
           })
           .catch((error) => {
             console.log("O ERRO FOI ESTE: " + error);
@@ -540,6 +577,9 @@ a {
   position: fixed;
   background-color: #3bcba0;
 }
+.buttonMovendo:active {
+  background-color: #42deaf;
+}
 .buttonParado {
   margin-top: 70px;
   position: relative;
@@ -632,7 +672,7 @@ a {
   display: flex;
   height: 73px;
   border-top: 1px solid #e3e3e3;
-  border-bottom: 1px solid #e3e3e3;
+  
   align-items: center;
   justify-content: space-around;
 }

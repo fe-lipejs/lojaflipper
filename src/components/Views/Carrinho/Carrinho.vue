@@ -61,23 +61,46 @@
       <div class="total-container">
         <div class="total">
           <div class="total-cartao">
-            <div style="margin-left:-38px">6x de R$ {{ priceTotal / 6 }}</div>
+            <div style="margin-left: -38px">6x de R$ {{ priceTotal / 6 }}</div>
             <div>no cartão de crédito*</div>
           </div>
-          <div style="margin-top:-8px" class="total-preco"><div style="color:grey;margin-left:-28px;font-weight:400; font-size:14px">Total:</div>R$ {{ priceTotal }}</div>
-        </div>
-        <div  class="container-finalizarCompra">
-          <router-link
-              style="text-decoration: none; color: inherit"
-              to="/informacoes"
+          <div style="margin-top: -8px" class="total-preco">
+            <div
+              style="
+                color: grey;
+                margin-left: -28px;
+                font-weight: 400;
+                font-size: 14px;
+              "
             >
-          <div  @click="fecharCarrinho(0)" style="color:#fff; background-color: #000">FINALIZAR COMPRA</div>
-         
-          </router-link>
-          <div style="margin-top:7px" @click="fecharCarrinho(0)">CONTINUAR COMPRANDO</div>
-
+              Total:
+            </div>
+            R$ {{ priceTotal }}
+          </div>
         </div>
-        
+        <div class="container-finalizarCompra">
+          <router-link
+            style="text-decoration: none; color: inherit"
+            to="/informacoes"
+          >
+            <a
+              href="#"
+              style="color: inherit; text-decoration: none"
+              @click="fecharCarrinho(0)"
+              ><div
+                style="color: #fff; background-color: #000"
+              >
+                FINALIZAR COMPRA
+              </div></a
+            >
+          </router-link>
+          <a
+            href="#"
+            style="color: inherit; text-decoration: none"
+            @click="fecharCarrinho(0)"
+            ><div style="margin-top: 7px">CONTINUAR COMPRANDO</div></a
+          >
+        </div>
       </div>
     </div>
 
@@ -256,8 +279,7 @@ export default {
   background-color: #fff;
 }
 
-
-.container-finalizarCompra{
+.container-finalizarCompra {
   /* display: flex; */
   justify-content: space-around;
   text-align: center;
@@ -266,7 +288,7 @@ export default {
   margin-bottom: 10px;
 }
 
-.container-finalizarCompra div{
+.container-finalizarCompra div {
   border: 1px grey solid;
   padding: 4px;
   cursor: pointer;
@@ -274,5 +296,4 @@ export default {
   padding-top: 15px;
   padding-bottom: 15px;
 }
-
 </style>
