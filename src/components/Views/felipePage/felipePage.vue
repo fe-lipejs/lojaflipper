@@ -108,7 +108,7 @@
       me chamo Felipe, programador, design gráfico e dono da Raffros.com
     </div>
 
-    <div @click="desativarAnimacaoCircle()">contato</div>
+    <div @click="desativarAnimacaoCircle()"><a href="#">contato</a></div>
 
     <br />
   </div>
@@ -159,6 +159,10 @@
 </template>
 
 <style scoped>
+a{
+  text-decoration: none;
+  color: #fff;
+}
 .form-contato {
   background-color: pink;
   position: fixed;
@@ -286,7 +290,7 @@
   display: flex;
   align-items: center; /* Alinha verticalmente no centro */
   justify-content: center; /* Alinha horizontalmente no centro */
-  color: #ffffffd6;
+  color: #ffffff;
   background-color: #1fd0e7;
   border-radius: 10px;
   width: 120px;
@@ -457,8 +461,7 @@ export default {
     desativarAnimacaoCircle() {
       clearInterval(this.animacaoCircle);
       clearTimeout(this.animacaoExibirNomes);
-
-      // this.$router.push("/felipe/contato");
+     this.$router.push("/felipe/contato");
     },
     ativarBlur() {
       this.$refs.blur.style.opacity = "1";

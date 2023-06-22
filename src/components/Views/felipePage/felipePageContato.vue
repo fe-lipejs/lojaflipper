@@ -42,11 +42,11 @@
   </div>
   <br /><br />
   <div class="form">
-    <div>Por favor, indique mais músicas :)</div>
+    <div>Contato</div>
     <span style="color: #fff">nome</span>
     <input @click="formAnimacao(1)" type="text" />
     <br />
-    <span style="color: #fff">nome</span>
+    <span style="color: #fff">telefone</span>
 
     <input type="text" />
     
