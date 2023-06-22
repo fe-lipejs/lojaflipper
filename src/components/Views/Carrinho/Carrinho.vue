@@ -8,20 +8,24 @@
     </div>
 
     <br />
-
-    <div v-for="(item, index) in carrinhoDados" :key="index">
-      <ProdutoCarrinho
-        :_id="item._id"
-        :id="item.id"
-        :nome="item.nome"
-        :preco="item.preco"
-        :cor="item.cor"
-        :tamanho="item.tamanho"
-        :imagem="item.imagem"
-        :quantidadeProduto="item.quantidade"
-        :estoqueProduto="item.estoqueProduto"
-        @novoCarrinho="receberNovoCarrinho"
-      />
+    <div v-if="!carrinhoDados">
+      <h2>Carrinho vazio :(</h2>
+    </div>
+    <div v-else>
+      <div v-for="(item, index) in carrinhoDados" :key="index">
+        <ProdutoCarrinho
+          :_id="item._id"
+          :id="item.id"
+          :nome="item.nome"
+          :preco="item.preco"
+          :cor="item.cor"
+          :tamanho="item.tamanho"
+          :imagem="item.imagem"
+          :quantidadeProduto="item.quantidade"
+          :estoqueProduto="item.estoqueProduto"
+          @novoCarrinho="receberNovoCarrinho"
+        />
+      </div>
     </div>
 
     <!-- INSERIR CUPOM -->
@@ -45,15 +49,15 @@
     <div style="margin-top: 15px; margin-inline: 15px" class="resumo-container">
       <div class="nome-preco">
         <div>SUBTOTAL</div>
-        <div>R$ 179,90</div>
+        <div>R$ {{ subTotalPrice }}</div>
       </div>
       <div class="nome-preco">
         <div>DESCONTOS</div>
-        <div>R$ 19,90</div>
+        <div>R$ {{ descontoPrice }}</div>
       </div>
       <div class="nome-preco">
         <div>CUPOM</div>
-        <div>R$ 9,90</div>
+        <div>R$ {{ cupomPrice }}</div>
       </div>
     </div>
     <!-- TOTAL CONTAINER -->
@@ -75,7 +79,7 @@
             >
               Total:
             </div>
-            R$ {{ priceTotal }}
+            R$ {{ precoTotal }}
           </div>
         </div>
         <div class="container-finalizarCompra">
@@ -87,9 +91,7 @@
               href="#"
               style="color: inherit; text-decoration: none"
               @click="fecharCarrinho(0)"
-              ><div
-                style="color: #fff; background-color: #000"
-              >
+              ><div style="color: #fff; background-color: #000">
                 FINALIZAR COMPRA
               </div></a
             >
@@ -130,9 +132,13 @@ export default {
       showComponentRodape: true,
       serverUrl: process.env.VUE_APP_SERVER_URL,
       carrinho: {},
-      precoTotal: 0,
+      precoTotal: this.cupomPrice,
+      cupomPrice: 3,
+      subTotalPrice: 100,
+      descontoPrice: 30,
     };
   },
+
   methods: {
     calcularPrecoTotal() {
       this.precoTotal = "";
@@ -151,15 +157,7 @@ export default {
     },
   },
   mounted() {
-    /* axios
-      .get(`${this.serverUrl}/carrinho`, {
-        withCredentials: true,
-      })
-      .then((response) => {})
-      .catch((error) => {
-        console.log("O ERRO FOI ESTE: " + error);
-      }); */
-
+    this.precoTotal = this.subTotalPrice - this.descontoPrice - this.cupomPrice;
     if (this.$route.path === "/carrinho") {
       // this.$refs.rodape.style.display = "none"
       console.log("Rodapé desaparece");

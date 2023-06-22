@@ -9,22 +9,24 @@
         <div class="produtoInformacoes">
           <div>{{ nome }}</div>
           <div>{{ cor }}/{{ tamanho }}</div>
-          <div>R$ {{ preco }}</div>
+          <div>R$ {{ preco}}</div>
         </div>
       </div>
 
       <div class="alterarContainer">
         <div class="quantidadeContainer">
-          <div v-on:click="quantidadeFuncao(-1)">-</div>
-          <div>{{ quantidade }}</div>
-          <div v-on:click="quantidadeFuncao(+1)">+</div>
+          <div v-on:click="adicionarQuantidadeCarrinho(-1)">-</div>
+          <div>{{ quantidadeProduto }}</div>
+          <div v-on:click="adicionarQuantidadeCarrinho(+1)">+</div>
         </div>
-      <a href="#" style="color: inherit;  text-decoration: none;" @click="deletarItem(id,cor,tamanho)">
-        <div
-          style="cursor: pointer; text-decoration: underline; color: grey"
+        <a
+          href="#"
+          style="color: inherit; text-decoration: none"
+          @click="deletarItem(id, cor, tamanho)"
         >
-          remover
-        </div>
+          <div style="cursor: pointer; text-decoration: underline; color: grey">
+            remover
+          </div>
         </a>
         <button></button>
       </div>
@@ -81,7 +83,7 @@
 
 <script>
 import axios from "axios";
-import eventBus from '@/components/event-bus';
+import eventBus from "@/components/event-bus";
 
 export default {
   data() {
@@ -104,15 +106,15 @@ export default {
     quantidadeProduto: Number,
     estoqueProduto: Number,
   },
-  watch:{
+  watch: {
     //após a atualização do carrinho, verifica se a variavel imagem mudou, caso sim, atualiza com o
-    imagem(imagemNovoValorAtualizado){
+    imagem(imagemNovoValorAtualizado) {
       this.getImageUrl(imagemNovoValorAtualizado);
-    } 
+    },
   },
   mounted() {
     this.getImageUrl(this.imagem);
-  }, 
+  },
   methods: {
     getImageUrl(img) {
       const urlCompleta = `${
@@ -140,8 +142,26 @@ export default {
         this.quantidade = this.estoque;
       }
     },
-    deletarItem(id,cor,tamanho) {
-       const dadosDelete = {
+    adicionarQuantidadeCarrinho(quantidade) {
+      const dados = {
+        id: this.id,
+        nome: this.nome,
+        tamanho: this.tamanho,
+        cor: this.cor,
+        imagemCapa: this.imagemCapa,
+        quantidade: quantidade,
+        estoqueProduto: this.estoqueProduto
+      };
+      axios
+        .post(`${this.serverUrl}/carrinho/addquantidade/`, dados, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          eventBus.$emit("novoCarrinhoAposDelete", response.data);
+        });
+    },
+    deletarItem(id, cor, tamanho) {
+      const dadosDelete = {
         id: id,
         nome: this.nome,
         tamanho: this.tamanho,
@@ -149,9 +169,13 @@ export default {
         imagemCapa: this.imagemCapa,
       };
       axios
-        .post(`${this.serverUrl}/carrinho-delete/${id}/${cor}/${tamanho}`, dadosDelete, {
-          withCredentials: true,
-        })
+        .post(
+          `${this.serverUrl}/carrinho-delete/${id}/${cor}/${tamanho}`,
+          dadosDelete,
+          {
+            withCredentials: true,
+          }
+        )
         .then((res) => {
           axios
             .get(`${this.serverUrl}/carrinho/`, {

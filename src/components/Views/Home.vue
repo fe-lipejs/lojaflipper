@@ -2,13 +2,14 @@
   <div>
     <div id="submenu">
       <div>
+
         <h1>HOME</h1>
       </div>
       <SearchBox />
     </div>
     <!-- <div id="novidades"></div> -->
     <div id="destaques-semana">
-      <span>DESTAQUES DA SEMANA</span>
+      <router-link to="/felipe"><span>DESTAQUES DA SEMANA</span></router-link>
     </div>
     <br />
     <div>

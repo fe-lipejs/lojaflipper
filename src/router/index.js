@@ -7,6 +7,8 @@ import Produto from "@/components/Views/Produto/Produto.vue"
 import Informacoes from "@/components/Views/Informacoes/Informacoes.vue"
 import Frete from "@/components/Views/Frete/Frete.vue"
 import Pagamento from "@/components/Views/Pagamento/Pagamento.vue"
+import felipePage from "@/components/Views/felipePage/felipePage.vue"
+import felipePageContato from "@/components/Views/felipePage/felipePageContato.vue"
 //ADMIN
 import CadastroProdutos from "@/components/Views/Admin/CadastroProdutos/CadastroProdutos.vue"
 const routes = [
@@ -15,6 +17,18 @@ const routes = [
     path: "/cadastro-produtos",
     name: "CadastroProdutos",
     component: CadastroProdutos,
+  },
+  //FELIPE CONTATO
+  {
+    path: "/felipe/contato",
+    name: "felipePageContato",
+    component: felipePageContato,
+  },
+  //FELIPE
+  {
+    path: "/felipe",
+    name: "felipePage",
+    component: felipePage,
   },
   //USER
   {

@@ -7,7 +7,7 @@
         type="text/css"
       />
     </head>
-    <NavBar />
+    <!-- <NavBar /> -->
     <body>
       <router-view />
     </body>
@@ -36,6 +36,7 @@ export default {
   },
   data() {
     return {
+      
       showComponentRodape: true,
     };
   },
