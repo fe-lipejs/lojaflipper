@@ -136,8 +136,8 @@
   </div> -->
   <div class="form">
     <div>Por favor, indique mais músicas :)</div>
-    <input @click="formAnimacao(1)" type="text" />
     <input type="text" />
+    <input @click="formAnimacao(1)" type="text" />
     <button class="form-submit" type="button">enviar</button>
   </div>
   <div class="circle2-container">
@@ -148,18 +148,10 @@
     ></div>
   </div>
   <div class="background"></div>
-  <div ref="blur" class="blur">
-    <div class="form">
-      <div>Por favor, indique mais músicas :)</div>
-      <input @click="formAnimacao(1)" type="text" />
-      <input type="text" />
-      <button class="form-submit" type="button">enviar</button>
-    </div>
-  </div>
 </template>
 
 <style scoped>
-a{
+a {
   text-decoration: none;
   color: #fff;
 }
@@ -362,7 +354,7 @@ a{
   overflow-y: hidden;
   border-radius: 100%;
   margin-top: 250px;
-  border: 1px #272727b3 solid;
+  border: 1px #535353b3 solid;
   z-index: -1;
   transition: 2s; /* Define a transição suave */
   height: 300px;
@@ -461,7 +453,7 @@ export default {
     desativarAnimacaoCircle() {
       clearInterval(this.animacaoCircle);
       clearTimeout(this.animacaoExibirNomes);
-     this.$router.push("/felipe/contato");
+      this.$router.push("/felipe/contato");
     },
     ativarBlur() {
       this.$refs.blur.style.opacity = "1";
@@ -520,7 +512,7 @@ export default {
         const maxY = window.innerHeight - 700; // Posição máxima do scroll vertical
         this.positionXcircle = Math.floor(Math.random() * (maxX - minX)) + minX;
         this.positionYcircle = Math.floor(Math.random() * (maxY - minY)) + minY;
-      }, 2000); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
+      }, 2500); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
     },
     formAnimacao(i) {
       this.positionXcircle2 = 0;

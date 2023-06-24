@@ -49,31 +49,84 @@
     <span style="color: #fff">telefone</span>
 
     <input type="text" />
-    
-    <div class="upload-container">
-    <label for="file-upload">Selecione os arquivos:</label>
-    <input
-      ref="fileInput"
-      id="file-upload"
-      type="file"
-      multiple
-      @change="handleFileSelect"
-    />
-    <div class="upload-button" @click="selectFiles">Selecionar</div>
-  </div>
 
-  <div class="file-list">
-    <ul>
-      <li v-for="file in fileList" :key="file.name">{{ file.name }}</li>
-    </ul>
-  </div>
+    <!-- ------------------------------- -->
+    <div class="select-wrapper">
+      <select ref="modernismoSelect" id="modernismoSelect" class="custom-select">
+        <option value="">Selecione uma opção</option>
+        <option value="machado">Machado de Assis</option>
+        <option value="drummond">Carlos Drummond de Andrade</option>
+        <option value="cecilia">Cecília Meireles</option>
+        <option value="manuel">Manuel Bandeira</option>
+      </select>
+   <span class="select-icon" @click="openSelect"></span>
+    </div>
+    <!-- -------------------------------- -->
+
+    <div class="upload-container">
+      <label for="file-upload">Selecione os arquivos:</label>
+      <input
+        ref="fileInput"
+        id="file-upload"
+        type="file"
+        multiple
+        @change="handleFileSelect"
+      />
+      <div class="upload-button" @click="selectFiles">Selecionar</div>
+    </div>
+
+    <div class="file-list">
+      <ul>
+        <li v-for="file in fileList" :key="file.name">{{ file.name }}</li>
+      </ul>
+    </div>
     <button class="form-submit" type="button">enviar</button>
   </div>
   <!-- ----------------- -->
-  
+
   <h2>ij</h2>
 </template>
 <style scoped>
+
+.select-wrapper {
+  position: relative;
+   width: 280px;
+
+  height: 40px; /* Ajuste o valor conforme necessário */
+ 
+}
+
+.custom-select {
+  appearance: none;
+  background-color: #fff;
+  border: none;
+  border-radius: 15px;
+   /* width: 250px; */
+  height: 40px; /* Ajuste o valor conforme necessário */
+ padding-left:30px ;
+  width: 100%;
+  font-size: 14px;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(32, 32, 32, 0.3);
+}
+
+.select-icon {
+  position: absolute;
+  top: 40%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-image: url('../../../assets/chevron-down.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .menu {
   display: flex;
   background-color: #131313;
@@ -167,7 +220,7 @@ input:focus {
   overflow-y: hidden;
   border-radius: 100%;
   margin-top: 250px;
-  border: 1px #272727b3 solid;
+  border: 1px #4c4c4cb3 solid;
   z-index: -1;
   transition: 2s; /* Define a transição suave */
   height: 300px;
@@ -227,8 +280,8 @@ export default {
   data() {
     return {
       animacaoCircle: null,
-      positionXcircle: 0,
-      positionYcircle: 0,
+      positionXcircle: -300,
+      positionYcircle: 50,
       fileList: [],
     };
   },
@@ -237,6 +290,11 @@ export default {
     this.startMoving();
   },
   methods: {
+    openSelect() {
+      const selectElement = this.$refs.modernismoSelect;
+      console.log(selectElement);
+      selectElement.click();
+    },
     selectFiles() {
       this.$refs.fileInput.value = null; // Limpar o valor do campo de upload
       this.$refs.fileInput.click();
@@ -257,13 +315,13 @@ export default {
     },
     startMoving() {
       this.animacaoCircle = setInterval(() => {
-        const minX = window.innerWidth - 300; // Posição mínima do scroll horizontal
-        const maxX = window.innerWidth - 500; // Posição máxima do scroll horizontal
-        const minY = window.innerHeight - -200; // Posição mínima do scroll vertical
-        const maxY = window.innerHeight - 150; // Posição máxima do scroll vertical
-        this.positionXcircle = Math.floor(Math.random() * (maxX - minX)) + minX;
+        const minX =  -300; // Posição mínima do scroll horizontal
+        const maxX = window.innerWidth -100; // Posição máxima do scroll horizontal
+        const minY = window.scrollY - 200; // Posição mínima do scroll vertical
+        const maxY = window.scrollY + 50; // Posição máxima do scroll vertical
+             this.positionXcircle = Math.floor(Math.random() * (maxX - minX)) + minX;
         this.positionYcircle = Math.floor(Math.random() * (maxY - minY)) + minY;
-      }, 2000); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
+      }, 4000); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
     },
   },
 };
