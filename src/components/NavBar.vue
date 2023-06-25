@@ -204,7 +204,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background: linear-gradient(270deg,#991ce2,#5003b4);
+  background: linear-gradient(270deg, #991ce2, #5003b4);
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -249,14 +249,23 @@ export default {
       });
   },
   created() {
-
     eventBus.$on("novoCarrinhoAposComprar", (dados) => {
-          this.carrinho = dados;
-          this.abrirCarrinho(1)
-        })
+      this.carrinho = dados;
+      this.abrirCarrinho(1);
+      this.precoTotal = 0;
+      for (let index = 0; index < this.carrinho.length; index++) {
+        const element = this.carrinho[index];
+        this.precoTotal += element.quantidade * element.preco;
+      }
+    });
 
     eventBus.$on("novoCarrinhoAposDelete", (novoCarrinho) => {
       this.carrinho = novoCarrinho;
+      this.precoTotal = 0;
+      for (let index = 0; index < this.carrinho.length; index++) {
+        const element = this.carrinho[index];
+        this.precoTotal += element.quantidade * element.preco;
+      }
     });
   },
   /* watch: {

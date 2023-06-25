@@ -7,7 +7,7 @@
         type="text/css"
       />
     </head>
-    <!-- <NavBar /> -->
+    <NavBar />
     <body>
       <router-view />
     </body>

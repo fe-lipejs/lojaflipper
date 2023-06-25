@@ -49,7 +49,7 @@
     <div style="margin-top: 15px; margin-inline: 15px" class="resumo-container">
       <div class="nome-preco">
         <div>SUBTOTAL</div>
-        <div>R$ {{ subTotalPrice }}</div>
+        <div>R$ {{ priceTotal }}</div>
       </div>
       <div class="nome-preco">
         <div>DESCONTOS</div>
@@ -65,7 +65,7 @@
       <div class="total-container">
         <div class="total">
           <div class="total-cartao">
-            <div style="margin-left: -38px">6x de R$ {{ priceTotal / 6 }}</div>
+            <div style="margin-left: -38px">6x de R$ {{ (priceTotal / 6) }}</div>
             <div>no cartão de crédito*</div>
           </div>
           <div style="margin-top: -8px" class="total-preco">
@@ -79,7 +79,7 @@
             >
               Total:
             </div>
-            R$ {{ precoTotal }}
+            R$ {{ priceTotal }}
           </div>
         </div>
         <div class="container-finalizarCompra">
@@ -133,9 +133,10 @@ export default {
       serverUrl: process.env.VUE_APP_SERVER_URL,
       carrinho: {},
       precoTotal: this.cupomPrice,
-      cupomPrice: 3,
-      subTotalPrice: 100,
-      descontoPrice: 30,
+      cupomPrice: 0,
+      subTotalPrice: 0,
+      descontoPrice: 0,
+      
     };
   },
 
@@ -157,6 +158,7 @@ export default {
     },
   },
   mounted() {
+    
     this.precoTotal = this.subTotalPrice - this.descontoPrice - this.cupomPrice;
     if (this.$route.path === "/carrinho") {
       // this.$refs.rodape.style.display = "none"

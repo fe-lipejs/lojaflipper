@@ -114,6 +114,7 @@ export default {
   },
   mounted() {
     this.getImageUrl(this.imagem);
+    console.log('O preço do produto '+this.nome+' de cor '+this.cor+' e tamanho '+this.tamanho+' é R$ '+(this.preco*this.quantidade));
   },
   methods: {
     getImageUrl(img) {

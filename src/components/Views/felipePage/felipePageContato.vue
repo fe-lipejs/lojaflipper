@@ -51,17 +51,25 @@
     <input type="text" />
 
     <!-- ------------------------------- -->
-    <div class="select-wrapper">
-      <select ref="modernismoSelect" id="modernismoSelect" class="custom-select">
-        <option value="">Selecione uma opção</option>
-        <option value="machado">Machado de Assis</option>
-        <option value="drummond">Carlos Drummond de Andrade</option>
-        <option value="cecilia">Cecília Meireles</option>
-        <option value="manuel">Manuel Bandeira</option>
-      </select>
-   <span class="select-icon" @click="openSelect"></span>
+    <div class="dropdown">
+      <div class="dropdown-toggle" @click="toggleDropdown">
+        <span>{{
+          selectedOption ? selectedOption.label : "Selecione uma opção"
+        }}</span>
+        <span class="dropdown-arrow"></span>
+      </div>
+      <div v-show="isDropdownOpen" class="dropdown-menu">
+        <div
+          v-for="option in options"
+          :key="option.value"
+          class="dropdown-item"
+          @click="selectOption(option)"
+        >
+          {{ option.label }}
+        </div>
+      </div>
     </div>
-    <!-- -------------------------------- -->
+    <!------------------------------ -->
 
     <div class="upload-container">
       <label for="file-upload">Selecione os arquivos:</label>
@@ -87,46 +95,6 @@
   <h2>ij</h2>
 </template>
 <style scoped>
-
-.select-wrapper {
-  position: relative;
-   width: 280px;
-
-  height: 40px; /* Ajuste o valor conforme necessário */
- 
-}
-
-.custom-select {
-  appearance: none;
-  background-color: #fff;
-  border: none;
-  border-radius: 15px;
-   /* width: 250px; */
-  height: 40px; /* Ajuste o valor conforme necessário */
- padding-left:30px ;
-  width: 100%;
-  font-size: 14px;
-  color: #333;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.custom-select:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(32, 32, 32, 0.3);
-}
-
-.select-icon {
-  position: absolute;
-  top: 40%;
-  right: 10px;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  background-image: url('../../../assets/chevron-down.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .menu {
   display: flex;
   background-color: #131313;
@@ -273,6 +241,68 @@ input:focus {
 .file-list li {
   margin-bottom: 5px;
 }
+/* SELECT OPCOES DE SERVIÇO */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  /* height: 40px; */
+}
+
+.dropdown-toggle {
+  display: flex;
+  width: 280px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  /* padding: 8px 50px; */
+  background-color: #fff;
+  border-radius: 15px;
+  position: relative;
+}
+.dropdown-toggle span {
+  font-size: 14px;
+  font-weight: 200;
+  color: #000000;
+}
+
+.dropdown-arrow {
+  position: absolute;
+  top: 52%;
+  right: 50px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000000;
+}
+
+.dropdown-menu {
+  /* width: 100%; */
+  position: absolute;
+  /* top: calc(100% -20px); */
+  left: 0;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+.dropdown-menu div {
+  font-size: 14px;
+  font-weight: 200;
+  color: #000000;
+  margin-bottom: 14px;
+}
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f2f2f2;
+}
 </style>
 
 <script>
@@ -283,6 +313,13 @@ export default {
       positionXcircle: -300,
       positionYcircle: 50,
       fileList: [],
+      isDropdownOpen: false,
+      options: [
+        { value: "opcao1", label: "Cartazes" },
+        { value: "opcao2", label: "Publicidade" },
+        { value: "opcao3", label: "Web Design" },
+      ],
+      selectedOption: null,
     };
   },
   mounted() {
@@ -290,10 +327,12 @@ export default {
     this.startMoving();
   },
   methods: {
-    openSelect() {
-      const selectElement = this.$refs.modernismoSelect;
-      console.log(selectElement);
-      selectElement.click();
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+    selectOption(option) {
+      this.selectedOption = option;
+      this.isDropdownOpen = false;
     },
     selectFiles() {
       this.$refs.fileInput.value = null; // Limpar o valor do campo de upload
@@ -315,11 +354,11 @@ export default {
     },
     startMoving() {
       this.animacaoCircle = setInterval(() => {
-        const minX =  -300; // Posição mínima do scroll horizontal
-        const maxX = window.innerWidth -100; // Posição máxima do scroll horizontal
+        const minX = -300; // Posição mínima do scroll horizontal
+        const maxX = window.innerWidth - 100; // Posição máxima do scroll horizontal
         const minY = window.scrollY - 200; // Posição mínima do scroll vertical
         const maxY = window.scrollY + 50; // Posição máxima do scroll vertical
-             this.positionXcircle = Math.floor(Math.random() * (maxX - minX)) + minX;
+        this.positionXcircle = Math.floor(Math.random() * (maxX - minX)) + minX;
         this.positionYcircle = Math.floor(Math.random() * (maxY - minY)) + minY;
       }, 4000); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
     },
