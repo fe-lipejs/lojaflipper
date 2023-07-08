@@ -204,7 +204,8 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background: linear-gradient(270deg, #991ce2, #5003b4);
+  background-color: #000;
+  /* background: linear-gradient(270deg, #991ce2, #5003b4); */
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;

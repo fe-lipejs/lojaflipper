@@ -9,7 +9,7 @@
         <div id="preco-old">R$ {{ preco }}</div>
         <div id="preco-new">R$ {{ precoPromocional }}</div>
       </div>
-      <div id="preco-parcelas">6X de R$23,32*</div>
+      <div id="preco-parcelas">6X de R$2,32*</div>
       
     </div>
 

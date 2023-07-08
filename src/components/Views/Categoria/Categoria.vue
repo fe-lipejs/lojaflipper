@@ -1,11 +1,12 @@
 <template>
+<br><br><br><br>
   <div>
     <!-- Parte de Cima -->
     <div id="categoria-title">ROUPAS MASCULINAS</div>
     <div id="results-container">
       <div>Resultado(27)</div>
       <div id="search-filter">
-        <div>Filtro</div>
+        <div>Filtrao</div>
         <div id="search-filter-icon">
           <svg
             id="search-filter-icon-svg"
@@ -26,7 +27,7 @@
         </div>
       </div>
     </div>
-    <!-- BODY -->
+   
     <!-- PRODUTOS CARDS -->
     <div id="cards-produtos">
       <CardProdutos />
@@ -42,6 +43,9 @@
 </template>
 
 <style scoped>
+/* FILTRO CONTAINER */
+
+/* FILTRO CONTAINER END */
 #cards-produtos {
   display: flex;
   justify-content: center;

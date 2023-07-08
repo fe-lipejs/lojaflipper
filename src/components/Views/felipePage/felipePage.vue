@@ -148,9 +148,21 @@
     ></div>
   </div>
   <div class="background"></div>
+  <div ref="blur" class="blur"></div>
 </template>
 
 <style scoped>
+.blur {
+  position: fixed;
+  backdrop-filter: blur(50px);
+  background-color: #000000c3;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  transition: all 1s;
+  opacity: 1;
+  z-index: 5;
+}
 a {
   text-decoration: none;
   color: #fff;
@@ -214,7 +226,7 @@ a {
   width: 100%;
   top: 0;
   transition: opacity 0.8s ease;
-  opacity: 0;
+  opacity: 1;
   z-index: -8;
 }
 .menu {
@@ -447,9 +459,17 @@ export default {
   mounted() {
     this.startMoving();
     this.exibirNomes();
+    this.ativarBlur();
+
   },
 
   methods: {
+    ativarBlur() {
+      setTimeout(() => {
+        this.$refs.blur.style.opacity = "0";
+        this.$refs.blur.style.zIndex = "-8";
+      }, 300);
+    },
     desativarAnimacaoCircle() {
       clearInterval(this.animacaoCircle);
       clearTimeout(this.animacaoExibirNomes);

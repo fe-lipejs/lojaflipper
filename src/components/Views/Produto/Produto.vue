@@ -575,7 +575,7 @@ a {
 
 .buttonMovendo {
   position: fixed;
-  background-color: #3bcba0;
+  background-color: #ed147d;
 }
 .buttonMovendo:active {
   background-color: #42deaf;

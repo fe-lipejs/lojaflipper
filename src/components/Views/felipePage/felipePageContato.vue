@@ -42,7 +42,8 @@
   </div>
   <br /><br />
   <div class="form">
-    <div>Contato</div>
+    <h1>Contato</h1>
+    <br><br>
     <span style="color: #fff">nome</span>
     <input @click="formAnimacao(1)" type="text" />
     <br />
@@ -51,11 +52,14 @@
     <input type="text" />
 
     <!-- ------------------------------- -->
+  
     <div class="dropdown">
+        <span class="dropdown-title" >Tipo de Serviço</span>
       <div class="dropdown-toggle" @click="toggleDropdown">
         <span>{{
           selectedOption ? selectedOption.label : "Selecione uma opção"
         }}</span>
+        
         <span class="dropdown-arrow"></span>
       </div>
       <div v-show="isDropdownOpen" class="dropdown-menu">
@@ -88,13 +92,16 @@
         <li v-for="file in fileList" :key="file.name">{{ file.name }}</li>
       </ul>
     </div>
-    <button class="form-submit" type="button">enviar</button>
+    <button @click="confirmar()" class="form-submit" type="button">enviar</button>
   </div>
   <!-- ----------------- -->
 
   <h2>ij</h2>
 </template>
 <style scoped>
+h1{
+  color: white;
+}
 .menu {
   display: flex;
   background-color: #131313;
@@ -163,7 +170,7 @@ input:focus {
 }
 .form-submit {
   background: linear-gradient(90.87deg, #2894d0 49.25%, #b168eb 105.7%), #212121;
-  color: #e9e9e9;
+  color: #fff;
   font-size: 16px;
   width: 280px;
   height: 40px;
@@ -247,6 +254,16 @@ input:focus {
   display: inline-block;
   /* height: 40px; */
 }
+.dropdown-title{
+  position: relative;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 200;
+  color: #fff;
+  left: 35%;
+  top: 20px;
+}
+
 
 .dropdown-toggle {
   display: flex;
@@ -254,7 +271,7 @@ input:focus {
   height: 40px;
   align-items: center;
   justify-content: center;
-
+margin-top:3px ;
   cursor: pointer;
   /* padding: 8px 50px; */
   background-color: #fff;
@@ -280,28 +297,37 @@ input:focus {
 }
 
 .dropdown-menu {
-  /* width: 100%; */
+  width: 280px;
   position: absolute;
   /* top: calc(100% -20px); */
+  top: 65px;
   left: 0;
   background-color: #fff;
-  border-radius: 4px;
+  border-radius: 7px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 9999;
 }
 .dropdown-menu div {
+   margin-top: 0px;
+  margin-inline: 0;
+  margin-bottom: 0px;
   font-size: 14px;
   font-weight: 200;
   color: #000000;
-  margin-bottom: 14px;
+  
 }
 .dropdown-item {
   padding: 8px;
   cursor: pointer;
+  
 }
 
 .dropdown-item:hover {
-  background-color: #f2f2f2;
+  background-color: #ececec;
+}
+.dropdown-item:active {
+   color: #fff;
+    background-color: rgb(32, 32, 32);
 }
 </style>
 
@@ -327,6 +353,10 @@ export default {
     this.startMoving();
   },
   methods: {
+    confirmar(){
+      this.$router.push("/felipe/confirmar");
+      console.log('ol');
+    },
     toggleDropdown() {
       this.isDropdownOpen = !this.isDropdownOpen;
     },
@@ -360,7 +390,7 @@ export default {
         const maxY = window.scrollY + 50; // Posição máxima do scroll vertical
         this.positionXcircle = Math.floor(Math.random() * (maxX - minX)) + minX;
         this.positionYcircle = Math.floor(Math.random() * (maxY - minY)) + minY;
-      }, 4000); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
+      }, 2000); // Altere o intervalo de tempo conforme necessário (2 segundos no exemplo)
     },
   },
 };

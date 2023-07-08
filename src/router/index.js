@@ -9,6 +9,7 @@ import Frete from "@/components/Views/Frete/Frete.vue"
 import Pagamento from "@/components/Views/Pagamento/Pagamento.vue"
 import felipePage from "@/components/Views/felipePage/felipePage.vue"
 import felipePageContato from "@/components/Views/felipePage/felipePageContato.vue"
+import confirmarPage from "@/components/Views/felipePage/confirmarPage"
 //ADMIN
 import CadastroProdutos from "@/components/Views/Admin/CadastroProdutos/CadastroProdutos.vue"
 const routes = [
@@ -29,6 +30,12 @@ const routes = [
     path: "/felipe",
     name: "felipePage",
     component: felipePage,
+  },
+  //CONFIRMATION PAGE
+  {
+    path: "/felipe/confirmar",
+    name: "confirmarPage",
+    component: confirmarPage,
   },
   //USER
   {
