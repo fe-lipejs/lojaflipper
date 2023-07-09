@@ -117,10 +117,10 @@
       </div>
     </div>
     <!-- Loading -->
-    <!--  <div ref="blur" class="blur">
+    <div ref="blur" class="blur">
       <span>Raffros</span>
       <div class="loading"></div>
-    </div> -->
+    </div>
 
     <!-- PRODUTOS CARDS -->
     <div id="cards-produtos">
@@ -184,16 +184,15 @@
   position: absolute;
   top: 110px;
   margin-top: -50px;
-
   width: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
-  z-index: 0;
+  z-index: -5;
 }
 .filtro-content {
   background-color: white;
   height: 90vh;
-  transform: translateX(0%);
+  transform: translateX(110%);
   opacity: 1;
   transition: 0.5s ease-in-out;
 }
@@ -319,11 +318,9 @@ export default {
       const opcao = document.getElementsByClassName(`filtro-${doc}`);
       const seta = document.getElementsByClassName(`seta-${doc}`);
 
-      console.log('Estamos no filtro',seta);
-
       if (seta[0].classList.contains("seta-rotate")) {
         seta[0].classList.remove("seta-rotate");
-         for (let i = 0; i < opcao.length; i++) {
+        for (let i = 0; i < opcao.length; i++) {
           opcao[i].classList.remove("filtro-remover-opcao");
         }
       } else {
@@ -365,7 +362,16 @@ export default {
       }
     },
     getFiltro() {
-      this.abrirFiltro(false)
+      this.abrirFiltro(false);
+      this.$refs.blur.style.zIndex = "5";
+      this.$refs.blur.style.opacity = "1";
+
+      setTimeout(() => {
+        this.$refs.blur.style.opacity = "0";
+        setTimeout(() => {
+          this.$refs.blur.style.zIndex = "-8";
+        }, 1100);
+      }, 1000);
     },
   },
 };
